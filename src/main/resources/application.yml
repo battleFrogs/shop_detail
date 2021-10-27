@@ -1,0 +1,21 @@
+spring:
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/gjc_test?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: root
+
+
+  mvc:
+    view:
+      suffix: .jsp
+      prefix: /WEB-INF/
+  web:
+    resources:
+      static-locations: classpath:/js/,classpath:/css/
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto

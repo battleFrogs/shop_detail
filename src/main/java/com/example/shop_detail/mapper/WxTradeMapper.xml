@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shop_detail.mapper.WxTradeMapper">
+
+    <resultMap type="com.example.shop_detail.model.WxTrade" id="WxTradeMap">
+        <result property="tradeId" column="trade_id" jdbcType="INTEGER"/>
+        <result property="appId" column="app_id" jdbcType="VARCHAR"/>
+        <result property="created" column="created" jdbcType="TIMESTAMP"/>
+        <result property="syncTime" column="sync_time" jdbcType="TIMESTAMP"/>
+        <result property="localPlatformSend" column="local_platform_send" jdbcType="INTEGER"/>
+        <result property="tradeType" column="trade_type" jdbcType="VARCHAR"/>
+        <result property="tradeSendType" column="trade_send_type" jdbcType="VARCHAR"/>
+        <result property="tradeItemNum" column="trade_item_num" jdbcType="INTEGER"/>
+        <result property="deliveryName" column="delivery_name" jdbcType="VARCHAR"/>
+        <result property="mergeStatus" column="merge_status" jdbcType="VARCHAR"/>
+        <result property="mergeOrderId" column="merge_order_id" jdbcType="VARCHAR"/>
+        <result property="mergeTime" column="merge_time" jdbcType="TIMESTAMP"/>
+        <result property="cancelMergeTime" column="cancel_merge_time" jdbcType="TIMESTAMP"/>
+        <result property="selfWaybillId" column="self_waybill_id" jdbcType="VARCHAR"/>
+        <result property="selfDeliveryId" column="self_delivery_id" jdbcType="VARCHAR"/>
+        <result property="selfDeliveryName" column="self_delivery_name" jdbcType="VARCHAR"/>
+        <result property="selfWaybillType" column="self_waybill_type" jdbcType="VARCHAR"/>
+        <result property="orderId" column="order_id" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="customerNotes" column="customer_notes" jdbcType="VARCHAR"/>
+        <result property="merchantNotes" column="merchant_notes" jdbcType="VARCHAR"/>
+        <result property="openid" column="openid" jdbcType="VARCHAR"/>
+        <result property="payTime" column="pay_time" jdbcType="TIMESTAMP"/>
+        <result property="freight" column="freight" jdbcType="INTEGER"/>
+        <result property="orderPrice" column="order_price" jdbcType="INTEGER"/>
+        <result property="productPrice" column="product_price" jdbcType="INTEGER"/>
+        <result property="isDiscounted" column="is_discounted" jdbcType="INTEGER"/>
+        <result property="discountedPrice" column="discounted_price" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="postalCode" column="postal_code" jdbcType="VARCHAR"/>
+        <result property="provinceName" column="province_name" jdbcType="VARCHAR"/>
+        <result property="cityName" column="city_name" jdbcType="VARCHAR"/>
+        <result property="countyName" column="county_name" jdbcType="VARCHAR"/>
+        <result property="detailInfo" column="detail_info" jdbcType="VARCHAR"/>
+        <result property="nationalCode" column="national_code" jdbcType="VARCHAR"/>
+        <result property="telNumber" column="tel_number" jdbcType="VARCHAR"/>
+        <result property="deliveryMethod" column="delivery_method" jdbcType="VARCHAR"/>
+        <result property="deliveryId" column="delivery_id" jdbcType="VARCHAR"/>
+        <result property="waybillId" column="waybill_id" jdbcType="VARCHAR"/>
+        <result property="distance" column="distance" jdbcType="INTEGER"/>
+        <result property="offlineDeliveryTime" column="offline_delivery_time" jdbcType="TIMESTAMP"/>
+        <result property="offlinePickupTime" column="offline_pickup_time" jdbcType="TIMESTAMP"/>
+        <result property="pickupUserName" column="pickup_user_name" jdbcType="VARCHAR"/>
+        <result property="pickupProvinceName" column="pickup_province_name" jdbcType="VARCHAR"/>
+        <result property="pickupCityName" column="pickup_city_name" jdbcType="VARCHAR"/>
+        <result property="pickupCountyName" column="pickup_county_name" jdbcType="VARCHAR"/>
+        <result property="pickupDetailInfo" column="pickup_detail_info" jdbcType="VARCHAR"/>
+        <result property="pickupHouseNumber" column="pickup_house_number" jdbcType="VARCHAR"/>
+        <result property="pickupTelNumber" column="pickup_tel_number" jdbcType="VARCHAR"/>
+        <result property="changeDownPrice" column="change_down_price" jdbcType="INTEGER"/>
+        <result property="mergeEncryptInfo" column="merge_encrypt_info" jdbcType="VARCHAR"/>
+        <result property="refund" column="refund" jdbcType="OTHER"/>
+        <result property="receiptMark" column="receipt_mark" jdbcType="VARCHAR"/>
+        <result property="receiptPrintTime" column="receipt_print_time" jdbcType="TIMESTAMP"/>
+        <result property="labelMark" column="label_mark" jdbcType="VARCHAR"/>
+        <result property="labelPrintTime" column="label_print_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="select_column_list">
+        trade_id, app_id, created, sync_time, local_platform_send, trade_type, trade_send_type, trade_item_num, delivery_name, merge_status, merge_order_id, merge_time, cancel_merge_time, self_waybill_id, self_delivery_id, self_delivery_name, self_waybill_type, order_id, create_time, update_time, status, customer_notes, merchant_notes, openid, pay_time, freight, order_price, product_price, is_discounted, discounted_price, user_name, postal_code, province_name, city_name, county_name, detail_info, national_code, tel_number, delivery_method, delivery_id, waybill_id, distance, offline_delivery_time, offline_pickup_time, pickup_user_name, pickup_province_name, pickup_city_name, pickup_county_name, pickup_detail_info, pickup_house_number, pickup_tel_number, change_down_price, merge_encrypt_info, refund, receipt_mark, receipt_print_time, label_mark, label_print_time    </sql>
+    
+    <sql id="insert_column_list">
+        app_id, created, sync_time, local_platform_send, trade_type, trade_send_type, trade_item_num, delivery_name, merge_status, merge_order_id, merge_time, cancel_merge_time, self_waybill_id, self_delivery_id, self_delivery_name, self_waybill_type, order_id, create_time, update_time, status, customer_notes, merchant_notes, openid, pay_time, freight, order_price, product_price, is_discounted, discounted_price, user_name, postal_code, province_name, city_name, county_name, detail_info, national_code, tel_number, delivery_method, delivery_id, waybill_id, distance, offline_delivery_time, offline_pickup_time, pickup_user_name, pickup_province_name, pickup_city_name, pickup_county_name, pickup_detail_info, pickup_house_number, pickup_tel_number, change_down_price, merge_encrypt_info, refund, receipt_mark, receipt_print_time, label_mark, label_print_time    </sql>
+    
+</mapper>
