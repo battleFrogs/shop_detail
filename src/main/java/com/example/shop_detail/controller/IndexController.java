@@ -1,14 +1,24 @@
 package com.example.shop_detail.controller;
 
+import com.example.shop_detail.application.IndexApplication;
+import com.example.shop_detail.common.ResultData;
+import com.example.shop_detail.common.ResultEnum;
+import com.example.shop_detail.utils.HttpUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.util.Timer;
 
 @Controller
 @RequestMapping("/index")
 public class IndexController {
 
+    @Resource
+    private IndexApplication indexApplication;
 
     /**
      * 访问首页
@@ -31,14 +41,22 @@ public class IndexController {
     }
 
     /**
-     * 访问登录页面
+     * 登录请求
      *
-     * @return 登录页
+     * @return 登录响应
      */
     @RequestMapping("/loginIn")
     @ResponseBody
-    public String loginIn() {
-        return "success";
+    public ResultData loginIn(@RequestParam String account, @RequestParam String password) {
+        indexApplication.loginIn(account, password);
+        return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
+    }
+
+
+    public static void main(String[] args) {
+
+        
+
     }
 
 

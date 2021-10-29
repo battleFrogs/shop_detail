@@ -18,7 +18,9 @@
 
 <div>
 
-    <button type="button" onclick="front()">前台</button>
+    <button type="button" onclick="frontGoods()" style="width: auto">前台-商品页面</button>
+    <button type="button" onclick="frontTrade()" style="width: auto">前台-订单页面</button>
+    <div style="margin-bottom: 20px"></div>
     <button type="button" onclick="behind()">后台</button>
 
 </div>
@@ -26,9 +28,14 @@
 
 <script type="text/javascript">
 
-    function front() {
-        alert("前台");
+    function frontGoods() {
+        window.location.href = "${pageContext.request.contextPath}/goods/goodsInfo";
     }
+
+    function frontTrade() {
+        window.location.href = "${pageContext.request.contextPath}/trade/tradeInfo";
+    }
+
 
     function behind() {
         alert("后台");

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shop_detail.mapper.TradeMapper">
+
+    <resultMap type="com.example.shop_detail.model.Trade" id="TradeMap">
+        <result property="tradeId" column="trade_id" jdbcType="INTEGER"/>
+        <result property="tradeNo" column="trade_no" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="total" column="total" jdbcType="INTEGER"/>
+        <result property="tradeStatus" column="trade_status" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="select_column_list">
+        trade_id, trade_no, goods_name, total, trade_status    </sql>
+    
+    <sql id="insert_column_list">
+        trade_no, goods_name, total, trade_status    </sql>
+    
+</mapper>

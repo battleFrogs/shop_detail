@@ -1,4 +1,7 @@
 package com.example.shop_detail.application;
 
-public class IndexApplication {
+public interface IndexApplication {
+
+    void loginIn(String account, String password);
+
 }
