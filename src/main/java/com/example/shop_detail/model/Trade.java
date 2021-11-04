@@ -17,25 +17,25 @@ import java.io.Serializable;
 public class Trade implements Serializable {
     private static final long serialVersionUID = -57740557432954262L;
     /**
-    * 主键Id
-    */
-        @TableId
-        private Long tradeId;
+     * 主键Id
+     */
+    @TableId
+    private Long tradeId;
     /**
-    * 订单编号
-    */
-        private String tradeNo;
+     * 订单编号
+     */
+    private String tradeNo;
     /**
-    * 商品名称
-    */
-        private String goodsName;
+     * 商品名称
+     */
+    private String goodsName;
     /**
-    * 订单价钱
-    */
-        private Long total;
+     * 订单价钱
+     */
+    private Long total;
     /**
-    * 订单类型
-    */
-        private String tradeStatus;
+     * 订单类型
+     */
+    private String tradeStatus;
 
 }

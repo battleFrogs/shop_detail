@@ -1,11 +1,16 @@
 package com.example.shop_detail.application.impl;
 
+import cn.hutool.core.util.RandomUtil;
 import com.example.shop_detail.application.TradeApplication;
+import com.example.shop_detail.domain.TradeDomain;
+import com.example.shop_detail.model.Goods;
 import com.example.shop_detail.model.Trade;
+import com.example.shop_detail.service.GoodsService;
 import com.example.shop_detail.service.TradeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -13,9 +18,38 @@ public class TradeApplicationImpl implements TradeApplication {
 
     @Resource
     private TradeService tradeService;
+    @Resource
+    private GoodsService goodsService;
 
     @Override
-    public List<Trade> tradeInfo() {
-        return tradeService.list();
+    public List<Trade> tradeInfo(String tradeStatus) {
+
+        return tradeService.tradeInfo(tradeStatus);
+    }
+
+    @Override
+    public void createTradeNoPay(Long goodsId, Integer num) {
+
+        Goods goods = goodsService.getById(goodsId);
+        Trade trade = new Trade();
+        trade.setTradeNo(RandomUtil.randomString(RandomUtil.BASE_CHAR, 10));
+        trade.setGoodsName(goods.getGoodsName());
+        Long total = Long.valueOf(BigDecimal.valueOf(num).multiply(BigDecimal.valueOf(goods.getGoodsPrice())).toString());
+        trade.setTotal(total);
+        trade.setTradeStatus(TradeDomain.TradeStatus.WAIT_PAY.getValue());
+        tradeService.save(trade);
+
+    }
+
+    @Override
+    public void createTradePay(Long goodsId, Integer num) {
+        Goods goods = goodsService.getById(goodsId);
+        Trade trade = new Trade();
+        trade.setTradeNo(RandomUtil.randomString(RandomUtil.BASE_CHAR, 10));
+        trade.setGoodsName(goods.getGoodsName());
+        Long total = Long.valueOf(BigDecimal.valueOf(num).multiply(BigDecimal.valueOf(goods.getGoodsPrice())).toString());
+        trade.setTotal(total);
+        trade.setTradeStatus(TradeDomain.TradeStatus.WAIT_SEND.getValue());
+        tradeService.save(trade);
     }
 }

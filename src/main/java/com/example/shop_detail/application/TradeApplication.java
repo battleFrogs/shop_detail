@@ -7,6 +7,9 @@ import java.util.List;
 public interface TradeApplication {
 
 
-    List<Trade> tradeInfo();
+    List<Trade> tradeInfo(String tradeStatus);
 
+    void createTradeNoPay(Long goodsId, Integer num);
+
+    void createTradePay(Long goodsId, Integer num);
 }
