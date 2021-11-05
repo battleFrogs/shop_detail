@@ -25,4 +25,12 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, Trade>
                 .eq(StringUtils.isNotBlank(tradeStatus), Trade::getTradeStatus, tradeStatus)
                 .list();
     }
+
+    @Override
+    public Trade findByTradeNo(String tradeNo) {
+        return this.lambdaQuery()
+                .eq(Trade::getTradeNo, tradeNo)
+                .one();
+    }
+
 }

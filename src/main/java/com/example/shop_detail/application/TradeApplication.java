@@ -12,4 +12,10 @@ public interface TradeApplication {
     void createTradeNoPay(Long goodsId, Integer num);
 
     void createTradePay(Long goodsId, Integer num);
+
+    void tradeSend(String tradeNo);
+
+    void tradeReceive(String tradeNo);
+
+    void tradePay(String tradeNo);
 }

@@ -14,4 +14,6 @@ import java.util.List;
 public interface TradeService extends IService<Trade> {
 
     List<Trade> tradeInfo(String tradeStatus);
+
+    Trade findByTradeNo(String tradeNo);
 }

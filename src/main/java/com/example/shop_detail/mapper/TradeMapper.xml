@@ -8,12 +8,17 @@
         <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
         <result property="total" column="total" jdbcType="INTEGER"/>
         <result property="tradeStatus" column="trade_status" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="payTime" column="pay_time" jdbcType="TIMESTAMP"/>
+        <result property="sendTime" column="send_time" jdbcType="TIMESTAMP"/>
+        <result property="receiveTime" column="receive_time" jdbcType="TIMESTAMP"/>
     </resultMap>
     
     <sql id="select_column_list">
-        trade_id, trade_no, goods_name, total, trade_status    </sql>
+        trade_id, trade_no, goods_name, total, trade_status, create_time, update_time, pay_time, send_time, receive_time    </sql>
     
     <sql id="insert_column_list">
-        trade_no, goods_name, total, trade_status    </sql>
+        trade_no, goods_name, total, trade_status, create_time, update_time, pay_time, send_time, receive_time    </sql>
     
 </mapper>

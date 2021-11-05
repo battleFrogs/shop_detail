@@ -13,8 +13,6 @@ public class TradeDomain {
 
 
 
-
-
     @Getter
     public enum TradeStatus {
 
@@ -24,6 +22,7 @@ public class TradeDomain {
         WAIT_PAY("待付款", "WAIT_PAY", 10),
         WAIT_SEND("待发货", "WAIT_SEND", 30),
         WAIT_RECEIVE("待收货", "WAIT_RECEIVE", 80),
+        FINISH("完成", "FINISH", 200),
         ;
 
         private final String name;

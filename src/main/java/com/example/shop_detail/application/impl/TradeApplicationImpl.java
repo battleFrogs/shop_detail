@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,6 +37,7 @@ public class TradeApplicationImpl implements TradeApplication {
         trade.setGoodsName(goods.getGoodsName());
         Long total = Long.valueOf(BigDecimal.valueOf(num).multiply(BigDecimal.valueOf(goods.getGoodsPrice())).toString());
         trade.setTotal(total);
+        trade.setUpdateTime(new Date());
         trade.setTradeStatus(TradeDomain.TradeStatus.WAIT_PAY.getValue());
         tradeService.save(trade);
 
@@ -49,7 +51,36 @@ public class TradeApplicationImpl implements TradeApplication {
         trade.setGoodsName(goods.getGoodsName());
         Long total = Long.valueOf(BigDecimal.valueOf(num).multiply(BigDecimal.valueOf(goods.getGoodsPrice())).toString());
         trade.setTotal(total);
+        trade.setPayTime(new Date());
+        trade.setUpdateTime(new Date());
         trade.setTradeStatus(TradeDomain.TradeStatus.WAIT_SEND.getValue());
         tradeService.save(trade);
+    }
+
+    @Override
+    public void tradeSend(String tradeNo) {
+        Trade trade = tradeService.findByTradeNo(tradeNo);
+        trade.setTradeStatus(TradeDomain.TradeStatus.WAIT_RECEIVE.getValue());
+        trade.setSendTime(new Date());
+        trade.setUpdateTime(new Date());
+        tradeService.saveOrUpdate(trade);
+    }
+
+    @Override
+    public void tradeReceive(String tradeNo) {
+        Trade trade = tradeService.findByTradeNo(tradeNo);
+        trade.setTradeStatus(TradeDomain.TradeStatus.FINISH.getValue());
+        trade.setReceiveTime(new Date());
+        trade.setUpdateTime(new Date());
+        tradeService.saveOrUpdate(trade);
+    }
+
+    @Override
+    public void tradePay(String tradeNo) {
+        Trade trade = tradeService.findByTradeNo(tradeNo);
+        trade.setTradeStatus(TradeDomain.TradeStatus.WAIT_SEND.getValue());
+        trade.setPayTime(new Date());
+        trade.setUpdateTime(new Date());
+        tradeService.saveOrUpdate(trade);
     }
 }

@@ -50,7 +50,9 @@ public class TradeController {
     /**
      * 创建订单未支付
      *
-     * @return index页面
+     * @param goodsId 商品Id
+     * @param num     数目
+     * @return resultData
      */
     @RequestMapping("/createTradeNoPay")
     @ResponseBody
@@ -62,12 +64,55 @@ public class TradeController {
     /**
      * 创建订单支付
      *
-     * @return index页面
+     * @param goodsId 商品Id
+     * @param num     数目
+     * @return resultData
      */
     @RequestMapping("/createTradePay")
     @ResponseBody
     public ResultData createTradePay(Long goodsId, Integer num) {
         tradeApplication.createTradePay(goodsId, num);
+        return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
+    }
+
+
+    /**
+     * 订单发货
+     *
+     * @param tradeNo 订单号
+     * @return resultData
+     */
+    @RequestMapping("/tradeSend")
+    @ResponseBody
+    public ResultData tradeSend(String tradeNo) {
+        tradeApplication.tradeSend(tradeNo);
+        return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
+    }
+
+    /**
+     * 订单付款
+     *
+     * @param tradeNo 订单号
+     * @return resultData
+     */
+    @RequestMapping("/tradePay")
+    @ResponseBody
+    public ResultData tradePay(String tradeNo) {
+        tradeApplication.tradePay(tradeNo);
+        return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
+    }
+
+
+    /**
+     * 订单确认收货
+     *
+     * @param tradeNo 订单号
+     * @return resultData
+     */
+    @RequestMapping("/tradeReceive")
+    @ResponseBody
+    public ResultData tradeReceive(String tradeNo) {
+        tradeApplication.tradeReceive(tradeNo);
         return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
     }
 
