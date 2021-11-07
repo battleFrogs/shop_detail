@@ -13,6 +13,7 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 </head>
 <body>
+<jsp:include page="../index/index.jsp"/>
 
 
 <div style="margin-bottom: 20px">

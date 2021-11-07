@@ -10,20 +10,53 @@
 <html>
 <head>
     <title>index</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/hello.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index/index.css">
+    <link rel="stylesheet" type="text/css"
+          href="${pageContext.request.contextPath}/bootstrap-3.4.1-dist/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="${pageContext.request.contextPath}/css/bootstrap-table.min.css"/>
+
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-table.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
 </head>
 
 
 <body>
 
-<div>
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">管理页面</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li id="index">首页</li>
+                    <li id="front" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            前台 <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:frontGoods()">商品</a></li>
+                            <li><a href="javascript:frontTrade()">订单</a></li>
+                        </ul>
+                    </li>
+                    <li id="behind" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            后台 <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:behind()">商品</a></li>
+                            <li><a href="javascript:behind()">订单</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <button type="button" onclick="frontGoods()" style="width: auto">前台-商品页面</button>
-    <button type="button" onclick="frontTrade()" style="width: auto">前台-订单页面</button>
-    <div style="margin-bottom: 20px"></div>
-    <button type="button" onclick="behind()">后台</button>
-
-</div>
 
 
 <script type="text/javascript">
@@ -40,6 +73,10 @@
     function behind() {
         alert("后台");
     }
+
+    $(function () {
+        $("#index").addClass("active");
+    });
 
 
 </script>

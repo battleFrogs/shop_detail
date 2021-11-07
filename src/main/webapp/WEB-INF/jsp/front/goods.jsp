@@ -10,36 +10,191 @@
 <html>
 <head>
     <title>Goods</title>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/front/goods.css">
 </head>
 <body>
-
-<table border="1">
-
-    <tr>
-        <th width="100px">商品Id</th>
-        <th width="100px">商品名称</th>
-        <th width="100px">商品价格</th>
-        <th width="100px">操作</th>
-    </tr>
-
-    <c:if test="${requestScope.goodsList!=null}">
-        <c:forEach var="goods" items="${requestScope.goodsList}">
-            <tr>
-                <td align="center">${goods.goodsId}</td>
-                <td align="center">${goods.goodsName}</td>
-                <td align="center">${goods.goodsPrice}</td>
-                <td align="center">
-                    <a href="${pageContext.request.contextPath}/goodsDetail/goodsDetail?goodsId=${goods.goodsId}">编辑</a>
-                </td>
-            </tr>
-        </c:forEach>
-    </c:if>
+<jsp:include page="../index/index.jsp"/>
 
 
-</table>
+<div style="margin: 50px">
+
+    <ol class="breadcrumb">
+        <li>前台</li>
+        <li>商品</li>
+    </ol>
+
+    <form class="form-inline">
+        <div id="goods-from" class="form-group">
+            <lable for="goodsName">商品名称 :</lable>
+            <input type="text" id="goodsName" class="form-control"
+                   placeholder="请输入商品名称">
+        </div>
+        <button id="search" type="button" class="btn btn-primary">搜索</button>
+        <button id="clear" type="button" class="btn btn-primary">清空</button>
+    </form>
+
+    <table id="goods-table" class="table table-bordered table-hover">
+
+        <thead>
+        <tr>
+            <th class="text-center">商品Id</th>
+            <th class="text-center">商品名称</th>
+            <th class="text-center">商品价格</th>
+            <th class="text-center">操作</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <c:if test="${requestScope.goodsList!=null}">
+            <c:forEach var="goods" items="${requestScope.goodsList}">
+                <tr class="text-center">
+                    <td style="vertical-align: middle">${goods.goodsId}</td>
+                    <td style="vertical-align: middle">${goods.goodsName}</td>
+                    <td style="vertical-align: middle">${goods.goodsPrice}</td>
+                    <td style="vertical-align: middle">
+                        <button id="update" data-toggle="modal" data-target="#myModal"
+                                class="btn btn-danger"
+                                onclick="update('${goods.goodsId}','${goods.goodsName}' , ${goods.goodsPrice})">选择
+                        </button>
+                    </td>
+                </tr>
+            </c:forEach>
+        </c:if>
+        </tbody>
+
+
+    </table>
+
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <input type="hidden" id="goodsId-value" value="">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        标题
+                    </h4>
+                </div>
+                <div id="body-value" class="modal-body">
+                    <div>商品Id：<span id="goodsIdResult"></span></div>
+                    <div>商品名称：<span id="goodsNameResult"></span></div>
+                    <div>商品价格：<span id="goodsPriceResult"></span></div>
+                    <input type="text" class="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="buyAndPay()">
+                        购买且支付
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="buyAndNoPay()">
+                        下单不支付
+                    </button>
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+</div>
 
 <script>
+
+    $(function () {
+        $("#front").addClass("active");
+
+
+        $("#search").click(function () {
+            getinfo();
+
+        });
+
+        $("#clear").click(function () {
+            $("#goodsName").val("")
+            getinfo();
+        });
+
+
+    });
+
+    function buyAndPay() {
+
+        let goodsId = $("#goodsIdResult").val();
+        let goodsNum = $("#goodsNumResult").val();
+
+
+        $.get("${pageContext.request.contextPath}/trade/createTradePay",
+            {goodsId: goodsId, num: goodsNum}, function (data) {
+                if (data) {
+                    if (data.code === 0) {
+                        alert("购买成功");
+                        return;
+                    }
+                    alert(data.msg);
+                }
+            });
+        getinfo();
+    }
+
+    function buyAndNoPay() {
+        getinfo();
+    }
+
+    function update(goodsId, goodsName, goodsPrice) {
+        $("#goodsIdResult").text(goodsId);
+        $("#goodsNameResult").text(goodsName);
+        $("#goodsPriceResult").text(goodsPrice);
+    }
+
+    var getinfo = function () {
+        let goodsName = $("#goodsName").val();
+
+        $("#goods-table").empty();
+
+        let tableHeader = "<tr><th class=\"text-center\">商品Id</th> " +
+            "<th class=\"text-center\">商品名称</th>" +
+            "<th class=\"text-center\">商品价格</th>" +
+            "<th class=\"text-center\">操作</th>" +
+            +"</tr>";
+
+        $.get(
+            "${pageContext.request.contextPath}/goods/goodsSearch",
+            {goodsName: goodsName},
+            function (data) {
+
+                if (data) {
+                    if (data.code === 0) {
+                        let goodsList = data.data.goodsList;
+                        let htmlContent = "";
+                        for (let i = 0; i < goodsList.length; i++) {
+
+                            let x = goodsList[i];
+                            let goodsId = x.goodsId;
+                            let goodsName = x.goodsName;
+                            let goodsPrice = x.goodsPrice;
+
+                            htmlContent += "<tr class=\"text-center\">" +
+                                "<td style=\"vertical-align: middle\">" + goodsId + "</td>" +
+                                "<td style=\"vertical-align: middle\">" + goodsName + "</td>" +
+                                "<td style=\"vertical-align: middle\">" + goodsPrice + "</td>" +
+                                "<td style=\"vertical-align: middle\">" +
+                                "<button id=\"update\" data-toggle=\"modal\" data-target=\"#myModal\"" +
+                                "class=\"btn btn-danger\"" +
+                                "onclick=\"update('" + goodsId + "','" + goodsName + "' , '" + goodsPrice + "')\" > 选择 </button> " +
+                                "</td>" +
+                                "</tr>";
+                        }
+                        $("#goods-table").html(tableHeader + htmlContent);
+                    }
+                }
+
+            }
+        );
+    }
+
 
 </script>
 </body>

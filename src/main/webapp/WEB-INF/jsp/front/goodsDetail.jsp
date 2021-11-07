@@ -13,6 +13,7 @@
 
 </head>
 <body>
+<jsp:include page="../index/index.jsp"/>
 
 <div style="margin: 20px">商品id： <span id="goodsId">${requestScope.goods.goodsId}</span></div>
 <div style="margin: 20px">商品名称： <span>${requestScope.goods.goodsName}</span></div>

@@ -10,24 +10,58 @@
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index/login.css">
+    <link rel="stylesheet" type="text/css"
+          href="${pageContext.request.contextPath}/bootstrap-3.4.1-dist/css/bootstrap.css"/>
+
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
-<div style="margin: 20px;">
-    <label>
-        账号：<input type="text" id="account" placeholder="请输入账号">
-    </label>
-    <label>
-        密码：<input type="password" id="password" placeholder="请输入密码">
-    </label>
-    <button type="button" id="loginIn">登录</button>
+<div class="center-in-center"></div>
+
+<div id="frame">
+
+
+        <div id="inner-frame">
+
+
+            <h1 style="text-align: center">后台管理系统</h1>
+
+                <div id="account-from" class="form-group">
+                    <lable for="account">账号 :</lable>
+                    <input type="text" id="account" class="form-control"
+                           placeholder="请输入账号">
+                </div>
+                <div class="form-group ">
+                    <lable for="password">密码 :</lable>
+                    <input type="password" id="password" class="form-control"
+                           placeholder="请输入密码">
+                </div>
+
+
+            <div style="text-align: center">
+                <button type="button" class="btn btn-primary" id="loginIn">登录</button>
+            </div>
+        </div>
+
 
 </div>
 
-
 <script>
     $(function () {
+
+        $("#account").blur(function () {
+            $("#account-from").addClass('has-feedback', "has-feedback");
+        });
+
+        $("#text").click(function () {
+            $("#text").attr('disabled', "disabled");
+        });
+
         $("#loginIn").click(function () {
 
             const account = $("#account").val();

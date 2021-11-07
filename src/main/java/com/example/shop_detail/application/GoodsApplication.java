@@ -8,4 +8,6 @@ public interface GoodsApplication {
 
     List<Goods> goodsInfo();
 
+    List<Goods> goodsSearch(String goodsName);
+
 }

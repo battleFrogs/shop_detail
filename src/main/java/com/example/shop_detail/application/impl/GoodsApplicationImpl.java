@@ -18,4 +18,9 @@ public class GoodsApplicationImpl implements GoodsApplication {
     public List<Goods> goodsInfo() {
         return goodsService.list();
     }
+
+    @Override
+    public List<Goods> goodsSearch(String goodsName) {
+        return goodsService.goodsSearch(goodsName);
+    }
 }

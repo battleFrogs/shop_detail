@@ -13,7 +13,7 @@ spring:
       prefix: /WEB-INF/
   web:
     resources:
-      static-locations: classpath:/js/,classpath:/css/
+      static-locations: classpath:/js/,classpath:/css/,classpath:/bootstrap-3.4.1-dist/
 
 mybatis-plus:
   global-config:
