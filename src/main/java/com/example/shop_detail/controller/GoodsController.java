@@ -37,6 +37,21 @@ public class GoodsController {
     }
 
     /**
+     * 后台商品列表页面
+     *
+     * @return 前台商品列表页
+     */
+    @RequestMapping("/goodsManage")
+    public String goodsManage() {
+        List<Goods> goodsList = goodsApplication.goodsInfo();
+        HttpUtils.getRequest().setAttribute("goodsList", goodsList);
+        return "jsp/behind/goods";
+    }
+
+
+
+
+    /**
      * 前台商品列表搜索
      *
      * @return 前台商品列表页

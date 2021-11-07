@@ -16,58 +16,77 @@
 <jsp:include page="../index/index.jsp"/>
 
 
-<div style="margin-bottom: 20px">
-    <label for="tradeStatus">订单类型:</label>
-    <select id="tradeStatus" style="width: 150px">
-        <option value="ALL" selected>所有状态</option>
-        <option value="WAIT_PAY">待付款</option>
-        <option value="WAIT_SEND">待发货</option>
-        <option value="WAIT_RECEIVE">待收货</option>
-    </select>
+<div style="margin: 50px">
 
-    <button type="button" id="selectTrade">查询</button>
+
+    <ol class="breadcrumb">
+        <li>前台</li>
+        <li>订单</li>
+    </ol>
+
+    <form class="form-inline">
+        <label for="tradeStatus">订单类型:</label>
+        <select id="tradeStatus" class="form-control" style="width: 150px">
+            <option value="ALL" selected>所有状态</option>
+            <option value="WAIT_PAY">待付款</option>
+            <option value="WAIT_SEND">待发货</option>
+            <option value="WAIT_RECEIVE">待收货</option>
+        </select>
+        <button type="button" class="btn btn-primary" id="selectTrade">查询</button>
+    </form>
+
+
+    <table id="tradeTbale" class="table table-bordered table-hover">
+        <tr>
+            <th class="text-center">订单编号</th>
+            <th class="text-center">订单商品名称</th>
+            <th class="text-center">订单价钱</th>
+            <th class="text-center">订单状态</th>
+            <th class="text-center">订单操作</th>
+        </tr>
+
+        <c:if test="${requestScope.tradeList!=null}">
+
+            <c:forEach items="${requestScope.tradeList}" var="trade">
+
+                <tr class="text-center">
+                    <td style="vertical-align: middle">${trade.tradeNo}</td>
+                    <td style="vertical-align: middle">${trade.goodsName}</td>
+                    <td style="vertical-align: middle">${trade.total}</td>
+
+                    <c:if test="${trade.tradeStatus == 'WAIT_PAY'}">
+                        <td style="vertical-align: middle">待付款</td>
+                        <td style="vertical-align: middle">
+                            <button id="pay" class="btn btn-danger"
+                                    onclick="tradePay('${trade.tradeNo}')">付款
+                            </button>
+                        </td>
+                    </c:if>
+                    <c:if test="${trade.tradeStatus == 'WAIT_SEND'}">
+                        <td style="vertical-align: middle">待发货</td>
+                        <td style="vertical-align: middle">
+                            <button id="send" class="btn btn-default"
+                                    onclick="tradeSend('${trade.tradeNo}')">发货
+                            </button>
+                        </td>
+                    </c:if>
+                    <c:if test="${trade.tradeStatus == 'WAIT_RECEIVE'}">
+                        <td style="vertical-align: middle">待确认收货</td>
+                        <td style="vertical-align: middle">
+                            <button id="receive" class="btn btn-success"
+                                    onclick="tradeReceive('${trade.tradeNo}')">确认收货
+                            </button>
+                        </td>
+                    </c:if>
+
+                </tr>
+            </c:forEach>
+        </c:if>
+
+    </table>
+
 </div>
 
-<table id="tradeTbale" border="1">
-    <tr>
-        <th width="100px">订单编号</th>
-        <th width="100px">订单商品名称</th>
-        <th width="100px">订单价钱</th>
-        <th width="100px">订单状态</th>
-        <th width="150px">订单操作</th>
-    </tr>
-
-    <c:if test="${requestScope.tradeList!=null}">
-
-        <c:forEach items="${requestScope.tradeList}" var="trade">
-
-            <tr>
-                <td align="center">${trade.tradeNo}</td>
-                <td align="center">${trade.goodsName}</td>
-                <td align="center">${trade.total}</td>
-                <td align="center">${trade.tradeStatus}</td>
-
-                <c:if test="${trade.tradeStatus == 'WAIT_PAY'}">
-                    <td align="center">
-                        <a href="javascript:tradePay('${trade.tradeNo}')">付款</a>
-                    </td>
-                </c:if>
-                <c:if test="${trade.tradeStatus == 'WAIT_SEND'}">
-                    <td align="center">
-                        <a href="javascript:tradeSend('${trade.tradeNo}')">发货</a>
-                    </td>
-                </c:if>
-                <c:if test="${trade.tradeStatus == 'WAIT_RECEIVE'}">
-                    <td align="center">
-                        <a href="javascript:tradeReceive('${trade.tradeNo}')">确认收货</a>
-                    </td>
-                </c:if>
-
-            </tr>
-        </c:forEach>
-    </c:if>
-
-</table>
 
 <script>
 
@@ -103,11 +122,11 @@
         let param = {};
         $("#tradeTbale").empty();
 
-        let htmlHead = "<tr><th width = \"100px\">订单编号</th> " +
-            "<th width=\"100px\">订单商品名称</th>" +
-            "<th width=\"100px\">订单价钱</th>" +
-            "<th width=\"100px\">订单状态</th>" +
-            "<th width=\"150px\">订单操作</th>"
+        let htmlHead = "<tr><th class=\"text-center\">订单编号</th> " +
+            "<th class=\"text-center\">订单商品名称</th>" +
+            "<th class=\"text-center\">订单价钱</th>" +
+            "<th class=\"text-center\">订单状态</th>" +
+            "<th class=\"text-center\">订单操作</th>"
             + "</tr>";
         if (tradeStatus !== "ALL") {
             param["tradeStatus"] = tradeStatus;
@@ -126,22 +145,32 @@
 
 
                         let operateTrade = ""
+                        let tradeStatusCn = ""
                         if (tradeStatus === "WAIT_PAY") {
-                            operateTrade = "<a href=\"javascript:tradePay('" + tradeNo + "')\">付款</a>" + ""
+                            tradeStatusCn = '待付款'
+                            operateTrade = "<button id=\"pay\" class=\"btn btn-danger\" " +
+                                "onclick=\"tradePay('" + tradeNo + "')\">付款" +
+                                "</button>";
                         }
                         if (tradeStatus === "WAIT_SEND") {
-                            operateTrade = "<a href=\"javascript:tradeSend('" + tradeNo + "')\">发货</a>" + ""
+                            tradeStatusCn = '待发货'
+                            operateTrade = "<button id=\"send\" class=\"btn btn-default\" " +
+                                "onclick=\"tradeSend('" + tradeNo + "')\">发货" +
+                                "</button>";
                         }
                         if (tradeStatus === "WAIT_RECEIVE") {
-                            operateTrade = "<a href=\"javascript:tradeReceive('" + tradeNo + "')\">确认收货</a>" + ""
+                            tradeStatusCn = '待确认收货'
+                            operateTrade = "<button id=\"receive\" class=\"btn btn-success\" " +
+                                "onclick=\"tradeReceive('" + tradeNo + "')\">确认收货" +
+                                "</button>";
                         }
 
-                        htmlContent += "<tr>" +
-                            "<td align=\"center\">" + tradeNo + "</td>" +
-                            "<td align=\"center\">" + goodsName + "</td>" +
-                            "<td align=\"center\">" + total + "</td>" +
-                            "<td align=\"center\">" + tradeStatus + "</td>" +
-                            "<td align=\"center\">" +
+                        htmlContent += "<tr class=\"text-center\">" +
+                            "<td style=\"vertical-align: middle\">" + tradeNo + "</td>" +
+                            "<td style=\"vertical-align: middle\">" + goodsName + "</td>" +
+                            "<td style=\"vertical-align: middle\">" + total + "</td>" +
+                            "<td style=\"vertical-align: middle\">" + tradeStatusCn + "</td>" +
+                            "<td style=\"vertical-align: middle\">" +
                             operateTrade +
                             "</td>" +
                             "</tr>";

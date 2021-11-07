@@ -52,17 +52,15 @@
                     <td style="vertical-align: middle">${goods.goodsName}</td>
                     <td style="vertical-align: middle">${goods.goodsPrice}</td>
                     <td style="vertical-align: middle">
-                        <button id="update" data-toggle="modal" data-target="#myModal"
+                        <button id="choose" data-toggle="modal" data-target="#myModal"
                                 class="btn btn-danger"
-                                onclick="update('${goods.goodsId}','${goods.goodsName}' , ${goods.goodsPrice})">选择
+                                onclick="choose('${goods.goodsId}','${goods.goodsName}' , ${goods.goodsPrice})">选择
                         </button>
                     </td>
                 </tr>
             </c:forEach>
         </c:if>
         </tbody>
-
-
     </table>
 
 
@@ -83,7 +81,8 @@
                     <div>商品Id：<span id="goodsIdResult"></span></div>
                     <div>商品名称：<span id="goodsNameResult"></span></div>
                     <div>商品价格：<span id="goodsPriceResult"></span></div>
-                    <input type="text" class="">
+                    <label for="buyNum">购买的数目</label>
+                    <input type="number" class="form-control" id="buyNum" value="1"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -93,7 +92,6 @@
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="buyAndNoPay()">
                         下单不支付
                     </button>
-
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
@@ -103,15 +101,19 @@
 
 <script>
 
+
     $(function () {
         $("#front").addClass("active");
-
-
+        /**
+         * 搜索
+         */
         $("#search").click(function () {
             getinfo();
 
         });
-
+        /**
+         * 清空
+         */
         $("#clear").click(function () {
             $("#goodsName").val("")
             getinfo();
@@ -120,82 +122,98 @@
 
     });
 
+
+    /**
+     * 购买且支付
+     */
     function buyAndPay() {
-
-        let goodsId = $("#goodsIdResult").val();
-        let goodsNum = $("#goodsNumResult").val();
-
-
+        let goodsId = $("#goodsIdResult").text();
+        let buyNum = $("#buyNum").val();
         $.get("${pageContext.request.contextPath}/trade/createTradePay",
-            {goodsId: goodsId, num: goodsNum}, function (data) {
+            {goodsId: goodsId, num: buyNum}, function (data) {
                 if (data) {
                     if (data.code === 0) {
-                        alert("购买成功");
+                        toastr.success("购买成功");
                         return;
                     }
-                    alert(data.msg);
+                    toastr.error(data.msg);
                 }
             });
         getinfo();
     }
 
+    /**
+     * 下单未支付
+     */
     function buyAndNoPay() {
+        let goodsId = $("#goodsIdResult").text();
+        let buyNum = $("#buyNum").val();
+        $.get("${pageContext.request.contextPath}/trade/createTradeNoPay",
+            {goodsId: goodsId, num: buyNum}, function (data) {
+                if (data) {
+                    if (data.code === 0) {
+                        toastr.success("购买成功");
+                        return;
+                    }
+                    toastr.error(data.msg);
+                }
+            });
         getinfo();
     }
 
-    function update(goodsId, goodsName, goodsPrice) {
+    /**
+     * 选择按钮
+     * @param goodsId
+     * @param goodsName
+     * @param goodsPrice
+     */
+    function choose(goodsId, goodsName, goodsPrice) {
         $("#goodsIdResult").text(goodsId);
         $("#goodsNameResult").text(goodsName);
         $("#goodsPriceResult").text(goodsPrice);
     }
 
+    /**
+     * 获取表格信息
+     */
     var getinfo = function () {
         let goodsName = $("#goodsName").val();
-
         $("#goods-table").empty();
-
         let tableHeader = "<tr><th class=\"text-center\">商品Id</th> " +
             "<th class=\"text-center\">商品名称</th>" +
             "<th class=\"text-center\">商品价格</th>" +
             "<th class=\"text-center\">操作</th>" +
             +"</tr>";
-
         $.get(
             "${pageContext.request.contextPath}/goods/goodsSearch",
             {goodsName: goodsName},
             function (data) {
-
                 if (data) {
                     if (data.code === 0) {
                         let goodsList = data.data.goodsList;
                         let htmlContent = "";
                         for (let i = 0; i < goodsList.length; i++) {
-
                             let x = goodsList[i];
                             let goodsId = x.goodsId;
                             let goodsName = x.goodsName;
                             let goodsPrice = x.goodsPrice;
-
                             htmlContent += "<tr class=\"text-center\">" +
                                 "<td style=\"vertical-align: middle\">" + goodsId + "</td>" +
                                 "<td style=\"vertical-align: middle\">" + goodsName + "</td>" +
                                 "<td style=\"vertical-align: middle\">" + goodsPrice + "</td>" +
                                 "<td style=\"vertical-align: middle\">" +
-                                "<button id=\"update\" data-toggle=\"modal\" data-target=\"#myModal\"" +
+                                "<button id=\"choose\" data-toggle=\"modal\" data-target=\"#myModal\"" +
                                 "class=\"btn btn-danger\"" +
-                                "onclick=\"update('" + goodsId + "','" + goodsName + "' , '" + goodsPrice + "')\" > 选择 </button> " +
+                                "onclick=\"choose('" + goodsId + "','" + goodsName + "' , '" + goodsPrice + "')\" > 选择 </button> " +
                                 "</td>" +
                                 "</tr>";
                         }
                         $("#goods-table").html(tableHeader + htmlContent);
                     }
                 }
-
             }
         );
     }
-
-
 </script>
 </body>
 </html>

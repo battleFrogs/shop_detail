@@ -27,10 +27,7 @@
 
 
         <div id="inner-frame">
-
-
             <h1 style="text-align: center">后台管理系统</h1>
-
                 <div id="account-from" class="form-group">
                     <lable for="account">账号 :</lable>
                     <input type="text" id="account" class="form-control"
@@ -41,8 +38,6 @@
                     <input type="password" id="password" class="form-control"
                            placeholder="请输入密码">
                 </div>
-
-
             <div style="text-align: center">
                 <button type="button" class="btn btn-primary" id="loginIn">登录</button>
             </div>

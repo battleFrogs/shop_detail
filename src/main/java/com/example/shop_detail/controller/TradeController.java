@@ -20,7 +20,7 @@ public class TradeController {
     private TradeApplication tradeApplication;
 
     /**
-     * 查询订单信息
+     * 前台订单列表页面
      *
      * @return 订单页面
      */
@@ -30,6 +30,19 @@ public class TradeController {
         HttpUtils.getRequest().setAttribute("tradeList", tradeList);
         return "/jsp/front/trade";
     }
+
+    /**
+     * 后台订单列表页面
+     *
+     * @return 订单页面
+     */
+    @RequestMapping("/tradeManage")
+    public String tradeManage() {
+        List<Trade> tradeList = tradeApplication.tradeInfo("");
+        HttpUtils.getRequest().setAttribute("tradeList", tradeList);
+        return "/jsp/behind/trade";
+    }
+
 
     /**
      * 查询订单状态信息
