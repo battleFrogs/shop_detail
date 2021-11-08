@@ -12,14 +12,14 @@
     <title>index</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index/index.css">
     <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/bootstrap-3.4.1-dist/css/bootstrap.css"/>
+          href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/bootstrap-table.min.css"/>
 
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-table.min.js"></script>
     <script type="text/javascript"
-            src="${pageContext.request.contextPath}/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+            src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/toastr.min.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/toastr.min.js"></script>
     <link rel="stylesheet" type="text/css"
