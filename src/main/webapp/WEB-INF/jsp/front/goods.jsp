@@ -141,7 +141,7 @@
     }
 
     /**
-     * 选择按钮
+     * 选择按钮 给提示框赋值
      * @param goodsId
      * @param goodsName
      * @param goodsPrice

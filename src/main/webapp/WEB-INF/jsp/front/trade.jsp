@@ -10,7 +10,6 @@
 <html>
 <head>
     <title>trade</title>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 </head>
 <body>
 <jsp:include page="../index/header.jsp"/>
