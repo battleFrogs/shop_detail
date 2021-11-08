@@ -16,7 +16,7 @@ public class WebCustomConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(new TokenInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/index/loginIn")
-                .excludePathPatterns("/index/login")
+                .excludePathPatterns("/page/index/login")
                 .excludePathPatterns("/js/**")
                 .excludePathPatterns("/css/**")
                 .excludePathPatterns("/bootstrap-3.4.1-dist/**");

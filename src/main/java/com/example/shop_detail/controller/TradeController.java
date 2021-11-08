@@ -4,15 +4,16 @@ import com.example.shop_detail.application.TradeApplication;
 import com.example.shop_detail.common.ResultData;
 import com.example.shop_detail.common.ResultEnum;
 import com.example.shop_detail.model.Trade;
-import com.example.shop_detail.utils.HttpUtils;
-import org.springframework.stereotype.Controller;
+import com.example.shop_detail.param.TradeInfoByStatusParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/trade")
 public class TradeController {
 
@@ -20,45 +21,19 @@ public class TradeController {
     private TradeApplication tradeApplication;
 
     /**
-     * 前台订单列表页面
-     *
-     * @return 订单页面
-     */
-    @RequestMapping("/tradeInfo")
-    public String tradeInfo() {
-        List<Trade> tradeList = tradeApplication.tradeInfo("");
-        HttpUtils.getRequest().setAttribute("tradeList", tradeList);
-        return "/jsp/front/trade";
-    }
-
-    /**
-     * 后台订单列表页面
-     *
-     * @return 订单页面
-     */
-    @RequestMapping("/tradeManage")
-    public String tradeManage() {
-        List<Trade> tradeList = tradeApplication.tradeInfo("");
-        HttpUtils.getRequest().setAttribute("tradeList", tradeList);
-        return "/jsp/behind/trade";
-    }
-
-
-    /**
      * 查询订单状态信息
      *
-     * @param tradeStatus 订单类型
+     * @param tradeInfoByStatusParam 订单参数
      * @return 订单页面
      */
     @RequestMapping("/tradeInfoByStatus")
-    @ResponseBody
-    public ResultData tradeInfoByStatus(String tradeStatus) {
+    public ResultData tradeInfoByStatus(@RequestBody @Valid TradeInfoByStatusParam tradeInfoByStatusParam) {
+        System.out.println(tradeInfoByStatusParam.getTradeStatus());
         ResultData resultData = new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
-        List<Trade> tradeList = tradeApplication.tradeInfo(tradeStatus);
+        List<Trade> tradeList = tradeApplication.tradeInfo(tradeInfoByStatusParam);
         resultData.addData("tradeList", tradeList);
         return resultData;
     }
-
 
     /**
      * 创建订单未支付
@@ -68,7 +43,6 @@ public class TradeController {
      * @return resultData
      */
     @RequestMapping("/createTradeNoPay")
-    @ResponseBody
     public ResultData createTradeNoPay(Long goodsId, Integer num) {
         tradeApplication.createTradeNoPay(goodsId, num);
         return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
@@ -82,7 +56,6 @@ public class TradeController {
      * @return resultData
      */
     @RequestMapping("/createTradePay")
-    @ResponseBody
     public ResultData createTradePay(Long goodsId, Integer num) {
         tradeApplication.createTradePay(goodsId, num);
         return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
@@ -96,7 +69,6 @@ public class TradeController {
      * @return resultData
      */
     @RequestMapping("/tradeSend")
-    @ResponseBody
     public ResultData tradeSend(String tradeNo) {
         tradeApplication.tradeSend(tradeNo);
         return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
@@ -109,7 +81,6 @@ public class TradeController {
      * @return resultData
      */
     @RequestMapping("/tradePay")
-    @ResponseBody
     public ResultData tradePay(String tradeNo) {
         tradeApplication.tradePay(tradeNo);
         return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
@@ -123,7 +94,6 @@ public class TradeController {
      * @return resultData
      */
     @RequestMapping("/tradeReceive")
-    @ResponseBody
     public ResultData tradeReceive(String tradeNo) {
         tradeApplication.tradeReceive(tradeNo);
         return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");

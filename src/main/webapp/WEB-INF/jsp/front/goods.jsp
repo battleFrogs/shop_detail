@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/front/goods.css">
 </head>
 <body>
-<jsp:include page="../index/index.jsp"/>
+<jsp:include page="../index/header.jsp"/>
 
 
 <div style="margin: 50px">
@@ -33,35 +33,7 @@
         <button id="clear" type="button" class="btn btn-primary">清空</button>
     </form>
 
-    <table id="goods-table" class="table table-bordered table-hover">
-
-        <thead>
-        <tr>
-            <th class="text-center">商品Id</th>
-            <th class="text-center">商品名称</th>
-            <th class="text-center">商品价格</th>
-            <th class="text-center">操作</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <c:if test="${requestScope.goodsList!=null}">
-            <c:forEach var="goods" items="${requestScope.goodsList}">
-                <tr class="text-center">
-                    <td style="vertical-align: middle">${goods.goodsId}</td>
-                    <td style="vertical-align: middle">${goods.goodsName}</td>
-                    <td style="vertical-align: middle">${goods.goodsPrice}</td>
-                    <td style="vertical-align: middle">
-                        <button id="choose" data-toggle="modal" data-target="#myModal"
-                                class="btn btn-danger"
-                                onclick="choose('${goods.goodsId}','${goods.goodsName}' , ${goods.goodsPrice})">选择
-                        </button>
-                    </td>
-                </tr>
-            </c:forEach>
-        </c:if>
-        </tbody>
-    </table>
+    <table id="goods-table" class="table table-bordered table-hover"></table>
 
 
     <!-- 模态框（Modal） -->
@@ -78,15 +50,19 @@
                     </h4>
                 </div>
                 <div id="body-value" class="modal-body">
-                    <div>商品Id：<span id="goodsIdResult"></span></div>
-                    <div>商品名称：<span id="goodsNameResult"></span></div>
-                    <div>商品价格：<span id="goodsPriceResult"></span></div>
-                    <label for="buyNum">购买的数目</label>
-                    <input type="number" class="form-control" id="buyNum" value="1"/>
+                    <div style="margin: 30px">
+                        <div>商品Id：<span id="goodsIdResult" style="margin: 15px"></span></div>
+                        <div>商品名称：<span id="goodsNameResult" style="margin: 15px"></span></div>
+                        <div>商品价格：<span id="goodsPriceResult" style="margin: 15px"></span></div>
+                        <form class="form-inline">
+                            购买的数目
+                            <input type="number" class="form-control" id="buyNum" value="1"/>
+                        </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="buyAndPay()">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="buyAndPay()">
                         购买且支付
                     </button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="buyAndNoPay()">
@@ -103,6 +79,9 @@
 
 
     $(function () {
+
+        getinfo();
+
         $("#front").addClass("active");
         /**
          * 搜索
@@ -214,6 +193,7 @@
             }
         );
     }
+
 </script>
 </body>
 </html>

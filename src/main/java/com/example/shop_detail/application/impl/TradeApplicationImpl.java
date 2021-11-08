@@ -5,6 +5,7 @@ import com.example.shop_detail.application.TradeApplication;
 import com.example.shop_detail.domain.TradeDomain;
 import com.example.shop_detail.model.Goods;
 import com.example.shop_detail.model.Trade;
+import com.example.shop_detail.param.TradeInfoByStatusParam;
 import com.example.shop_detail.service.GoodsService;
 import com.example.shop_detail.service.TradeService;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,9 @@ public class TradeApplicationImpl implements TradeApplication {
     private GoodsService goodsService;
 
     @Override
-    public List<Trade> tradeInfo(String tradeStatus) {
+    public List<Trade> tradeInfo(TradeInfoByStatusParam param) {
 
-        return tradeService.tradeInfo(tradeStatus);
+        return tradeService.tradeInfo(param.getTradeStatus(), param.getBeginTime(), param.getEndTime());
     }
 
     @Override

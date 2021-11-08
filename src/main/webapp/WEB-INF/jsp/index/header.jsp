@@ -44,8 +44,8 @@
                         前台 <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="javascript:frontGoods()">商品</a></li>
-                        <li><a href="javascript:frontTrade()">订单</a></li>
+                        <li><a href="${pageContext.request.contextPath}/page/goods/goodsInfo">商品</a></li>
+                        <li><a href="${pageContext.request.contextPath}/page/trade/tradeInfo">订单</a></li>
                     </ul>
                 </li>
                 <li id="behind" class="dropdown">
@@ -53,8 +53,8 @@
                         后台 <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="javascript:behindGoods()">商品</a></li>
-                        <li><a href="javascript:behindTrade()">订单</a></li>
+                        <li><a href="${pageContext.request.contextPath}/page/goods/goodsManage">商品</a></li>
+                        <li><a href="${pageContext.request.contextPath}/page/trade/tradeManage">订单</a></li>
                     </ul>
                 </li>
             </ul>
@@ -64,30 +64,7 @@
 
 
 <script type="text/javascript">
-
-    // 前台上商品页面跳转
-    function frontGoods() {
-        window.location.href = "${pageContext.request.contextPath}/goods/goodsInfo";
-    }
-
-    // 前台订单页面跳转
-    function frontTrade() {
-        window.location.href = "${pageContext.request.contextPath}/trade/tradeInfo";
-    }
-
-    // 后台商品页面跳转
-    function behindGoods() {
-        window.location.href = "${pageContext.request.contextPath}/goods/goodsManage";
-    }
-
-    // 后台订单页面跳转
-    function behindTrade() {
-        window.location.href = "${pageContext.request.contextPath}/goods/tradeManage";
-    }
-
-
     $(function () {
-
         // 初始化 toast 提示框
         toastr.options = {
             "closeButton": false, //是否显示关闭按钮
@@ -102,10 +79,7 @@
             "showMethod": "fadeIn",//显示时的动画方式
             "hideMethod": "fadeOut" //消失时的动画方式
         };
-
     });
-
-
 </script>
 </body>
 </html>

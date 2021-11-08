@@ -2,7 +2,9 @@ package com.example.shop_detail.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.shop_detail.model.Trade;
+import com.example.shop_detail.param.TradeInfoByStatusParam;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,7 +15,7 @@ import java.util.List;
  */
 public interface TradeService extends IService<Trade> {
 
-    List<Trade> tradeInfo(String tradeStatus);
+    List<Trade> tradeInfo(String tradeStatus, Date beginTime, Date endTime);
 
     Trade findByTradeNo(String tradeNo);
 }

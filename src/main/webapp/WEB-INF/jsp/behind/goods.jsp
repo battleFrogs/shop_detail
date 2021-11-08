@@ -11,7 +11,7 @@
     <title>goods</title>
 </head>
 <body>
-<jsp:include page="../index/index.jsp"/>
+<jsp:include page="../index/header.jsp"/>
 
 
 <div style="margin: 50px">
@@ -26,10 +26,6 @@
             <input type="text" id="goodsName" class="form-control"
                    placeholder="请输入商品名称">
         </div>
-<%--        <lable for="datetimepicker">日期 :</lable>--%>
-<%--        <input type="text" id="datetimepicker" name="datetimepicker" value=" " placeholder="查询年月" class="form-control">--%>
-        <input type="text" class="form-control" value="2017-06-01 00:00" id="begin" >
-        <input type="text" class="form-control" value="2017-06-18 00:00" id="end" >
 
         <button id="search" type="button" class="btn btn-primary">搜索</button>
         <button id="clear" type="button" class="btn btn-primary">清空</button>
@@ -38,11 +34,23 @@
 </div>
 
 <script type="text/javascript">
+
+    $(function () {
         $('#begin').datetimepicker({
-        format : 'yyyy-mm-dd hh:ii' /*此属性是显示顺序，还有显示顺序是mm-dd-yyyy*/
-    });
+            format: 'yyyy-mm-dd hh:ii:ss',
+            initialDate: new Date(),
+            language:'zh-CN'
+        });
+
         $('#end').datetimepicker({
-        format : 'yyyy-mm-dd hh:ii' /*此属性是显示顺序，还有显示顺序是mm-dd-yyyy*/
+            format: 'yyyy-mm-dd hh:ii:ss',
+            initialDate: new Date(),
+            language:'zh-CN'
+        });
+
+        $("#clear").on("click", function () {
+            alert("dsfdsf")
+        });
     });
 </script>
 </body>

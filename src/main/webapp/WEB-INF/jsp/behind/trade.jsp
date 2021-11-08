@@ -11,7 +11,7 @@
     <title>trade</title>
 </head>
 <body>
-<jsp:include page="../index/index.jsp"/>
+<jsp:include page="../index/header.jsp"/>
 
 </body>
 </html>

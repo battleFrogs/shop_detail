@@ -5,50 +5,26 @@ import com.example.shop_detail.application.GoodsApplication;
 import com.example.shop_detail.common.ResultData;
 import com.example.shop_detail.common.ResultEnum;
 import com.example.shop_detail.model.Goods;
+import com.example.shop_detail.param.GoodsSearchParam;
 import com.example.shop_detail.utils.HttpUtils;
 import com.example.shop_detail.vo.Result;
 import com.zaxxer.hikari.util.FastList;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-@Controller
+@RestController
 @RequestMapping("/goods")
 public class GoodsController {
 
     @Resource
     private GoodsApplication goodsApplication;
-
-    /**
-     * 前台商品列表页面
-     *
-     * @return 前台商品列表页
-     */
-    @RequestMapping("/goodsInfo")
-    public String goodsInfo() {
-        List<Goods> goodsList = goodsApplication.goodsInfo();
-        HttpUtils.getRequest().setAttribute("goodsList", goodsList);
-        return "jsp/front/goods";
-    }
-
-    /**
-     * 后台商品列表页面
-     *
-     * @return 前台商品列表页
-     */
-    @RequestMapping("/goodsManage")
-    public String goodsManage() {
-        List<Goods> goodsList = goodsApplication.goodsInfo();
-        HttpUtils.getRequest().setAttribute("goodsList", goodsList);
-        return "jsp/behind/goods";
-    }
-
-
 
 
     /**
@@ -57,10 +33,9 @@ public class GoodsController {
      * @return 前台商品列表页
      */
     @RequestMapping("/goodsSearch")
-    @ResponseBody
-    public ResultData goodsSearch(String goodsName) {
+    public ResultData goodsSearch(GoodsSearchParam param) {
         ResultData resultData = new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
-        List<Goods> goodsList = goodsApplication.goodsSearch(goodsName);
+        List<Goods> goodsList = goodsApplication.goodsSearch(param);
         resultData.addData("goodsList", goodsList);
         return resultData;
     }

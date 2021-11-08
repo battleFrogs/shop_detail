@@ -2,6 +2,7 @@ package com.example.shop_detail.application.impl;
 
 import com.example.shop_detail.application.GoodsApplication;
 import com.example.shop_detail.model.Goods;
+import com.example.shop_detail.param.GoodsSearchParam;
 import com.example.shop_detail.service.GoodsService;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class GoodsApplicationImpl implements GoodsApplication {
     }
 
     @Override
-    public List<Goods> goodsSearch(String goodsName) {
-        return goodsService.goodsSearch(goodsName);
+    public List<Goods> goodsSearch(GoodsSearchParam param) {
+        return goodsService.goodsSearch(param.getGoodsName());
     }
 }

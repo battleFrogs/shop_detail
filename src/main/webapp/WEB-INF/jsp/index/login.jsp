@@ -26,22 +26,22 @@
 <div id="frame">
 
 
-        <div id="inner-frame">
-            <h1 style="text-align: center">后台管理系统</h1>
-                <div id="account-from" class="form-group">
-                    <lable for="account">账号 :</lable>
-                    <input type="text" id="account" class="form-control"
-                           placeholder="请输入账号">
-                </div>
-                <div class="form-group ">
-                    <lable for="password">密码 :</lable>
-                    <input type="password" id="password" class="form-control"
-                           placeholder="请输入密码">
-                </div>
-            <div style="text-align: center">
-                <button type="button" class="btn btn-primary" id="loginIn">登录</button>
-            </div>
+    <div id="inner-frame">
+        <h1 style="text-align: center">管理系统</h1>
+        <div id="account-from" class="form-group">
+            <lable for="account">账号 :</lable>
+            <input type="text" id="account" class="form-control"
+                   placeholder="请输入账号">
         </div>
+        <div class="form-group ">
+            <lable for="password">密码 :</lable>
+            <input type="password" id="password" class="form-control"
+                   placeholder="请输入密码">
+        </div>
+        <div style="text-align: center">
+            <button type="button" class="btn btn-primary" id="loginIn">登录</button>
+        </div>
+    </div>
 
 
 </div>
@@ -49,30 +49,20 @@
 <script>
     $(function () {
 
-        $("#account").blur(function () {
-            $("#account-from").addClass('has-feedback', "has-feedback");
-        });
-
-        $("#text").click(function () {
-            $("#text").attr('disabled', "disabled");
-        });
-
+        // 登录请求
         $("#loginIn").click(function () {
-
             const account = $("#account").val();
             const password = $("#password").val();
-
             if (!account || !password) {
                 alert("输入不能为空");
                 return;
             }
-
             $.get("${pageContext.request.contextPath}/index/loginIn",
                 {account: account, password: password},
                 function (data) {
                     if (data) {
                         if (data.code === 0) {
-                            window.location.href = "${pageContext.request.contextPath}/index/index";
+                            window.location.href = "${pageContext.request.contextPath}/page/goods/goodsInfo";
                             return;
                         }
                         alert(data.msg);
