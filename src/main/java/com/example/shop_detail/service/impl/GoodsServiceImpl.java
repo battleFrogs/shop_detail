@@ -25,4 +25,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods>
                 .eq(StringUtils.isNotBlank(goodsName), Goods::getGoodsName, goodsName)
                 .list();
     }
+
+    @Override
+    public Goods findByGoodsId(Long goodsId) {
+        return this.lambdaQuery()
+                .eq(Goods::getGoodsId, goodsId)
+                .one();
+    }
 }

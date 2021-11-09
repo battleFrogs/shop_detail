@@ -15,4 +15,5 @@ public interface GoodsService extends IService<Goods> {
 
     List<Goods> goodsSearch(String goodsName);
 
+    Goods findByGoodsId(Long goodsId);
 }

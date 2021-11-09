@@ -36,41 +36,73 @@
     </table>
 
 
-    <!-- 模态框（Modal） -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModalChoose" tabindex="-1" role="dialog" aria-labelledby="myModalChooseLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <input type="hidden" id="goodsId-value" value="">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                         &times;
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">
+                    <h4 class="modal-title" id="myModalChooseLabel">
+                        修改商品
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div>商品Id: <input id="updateGoodsId" class="form-control" disabled/></div>
+                    <div>商品名称: <input id="updateGoodsName" class="form-control"/></div>
+                    <div>商品价格: <input id="updateGoodsPrice" class="form-control"/></div>
+                    <div>商品数目: <input id="updateGoodsNum" class="form-control"/></div>
+                    <div>商品描述: <input id="updateGoodsDescription" class="form-control"/></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-danger" id="updateGoodsConfirm">
+                        确认修改
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalAddLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalAddLabel">
                         添加商品
                     </h4>
                 </div>
-                <div id="body-value" class="modal-body">
-                    <div style="margin: 100px "/>
-                        <div style="display: flex;justify-content: space-around">
-                            商品Id：<input id="goodsIdResult" class="form-control" /></div>
-                        <div style="display: flex;justify-content: space-around">
-                            商品名称：<input id="goodsNameResult " class="form-control" /></div>
-                        <div style="display: flex;justify-content: space-around">
-                            商品价格：<input id="goodsPriceResult" class="form-control" /></div>
-                    </div>
+                <div class="modal-body">
+                    <div style="margin: 50px "/>
+                    <div>
+                        商品名称：<input id="goodsNameResult" class="form-control"/></div>
+                    <div>
+                        商品描述：<input id="goodsDescriptionResult" class="form-control"/></div>
+                    <div>
+                        商品价格：<input type="number" id="goodsPriceResult" class="form-control" value="100"/></div>
+                    <div>
+                        商品数目：<input type="number" id="goodsNumResult" class="form-control" value="1"/></div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="buyAndPay()">
-                        购买且支付
-                    </button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="buyAndNoPay()">
-                        下单不支付
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-danger" id="addGoodsConfirm">
+                    确认添加
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+
+
+</div>
+
 
 </div>
 
@@ -83,24 +115,139 @@
         $("#clear").on("click", function () {
             $("#goodsName").val('');
         });
-
         $("#search").click(function () {
             getInfo();
         });
 
+
         $("#addGoods").click(function () {
+            $("#myModalAdd").modal('show');
+        });
+        $("#addGoodsConfirm").click(function () {
+            let goodsNameResult = $("#goodsNameResult").val();
+            let goodsDescriptionResult = $("#goodsDescriptionResult").val();
+            let goodsPriceResult = $("#goodsPriceResult").val();
+            let goodsNumResult = $("#goodsNumResult").val();
 
-        })
+            if (!goodsNameResult) {
+                toastr.error("名称为空");
+                return;
+            }
+            if (!goodsDescriptionResult) {
+                toastr.error("描述为空");
+                return;
+            }
+            if (!goodsPriceResult) {
+                toastr.error("价格为空");
+                return;
+            }
+            if (!goodsNumResult) {
+                toastr.error("数目为空");
+                return;
+            }
 
 
+            let param = {
+                'goodsNum': parseInt(goodsNumResult),
+                'goodsDescription': goodsDescriptionResult,
+                'goodsPrice': parseInt(goodsPriceResult), "goodsName": goodsNameResult
+            };
+            $.ajax({
+                url: "${pageContext.request.contextPath}/goods/addGoods",
+                type: 'post',
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify(param),
+                success: function (data) {
+                    if (data) {
+                        checkReLogin(data)
+                        if (data.code === 0) {
+                            getInfo();
+                            $("#myModalAdd").modal('hide');
+                        }
+                    }
+                }
+            });
+
+
+        });
+
+        $("#updateGoodsConfirm").click(function () {
+            let updateGoodsName = $("#updateGoodsName").val();
+            let updateGoodsId = $("#updateGoodsId").val();
+            let updateGoodsPrice = $("#updateGoodsPrice").val();
+            let updateGoodsNum = $("#updateGoodsNum").val();
+            let updateGoodsDescription = $("#updateGoodsDescription").val();
+
+            if (!updateGoodsId) {
+                toastr.error("ID为空");
+                return;
+            }
+            if (!updateGoodsName) {
+                toastr.error("名称为空");
+                return;
+            }
+            if (!updateGoodsDescription) {
+                toastr.error("描述为空");
+                return;
+            }
+            if (!updateGoodsPrice) {
+                toastr.error("价格为空");
+                return;
+            }
+            if (!updateGoodsNum) {
+                toastr.error("数目为空");
+                return;
+            }
+
+
+            let param = {
+                'goodsId':parseInt(updateGoodsId),
+                'goodsNum': parseInt(updateGoodsNum),
+                'goodsDescription': updateGoodsDescription,
+                'goodsPrice': parseInt(updateGoodsPrice), "goodsName": updateGoodsName
+            };
+            $.ajax({
+                url: "${pageContext.request.contextPath}/goods/updateGoods",
+                type: 'post',
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify(param),
+                success: function (data) {
+                    if (data) {
+                        checkReLogin(data)
+                        if (data.code === 0) {
+                            getInfo();
+                            $("#myModalChoose").modal('hide');
+                        }
+                    }
+                }
+            });
+
+        });
 
     });
 
-    function choose(goodsId, goodsName, goodsPrice) {
+    // 删除商品
+    function deleteGoods(goodsId) {
+        $.get("${pageContext.request.contextPath}/goods/deleteGoods", {goodsId}, function (data) {
+            if (data) {
+                checkReLogin(data)
+                if (data.code === 0) {
+                    getInfo();
+                }
+            }
+        });
+    }
 
-
+    // 修改商品
+    function choose(goodsId, goodsName, goodsPrice, goodsNum, goodsDescription) {
+        $("#updateGoodsName").val(goodsName);
+        $("#updateGoodsId").val(goodsId);
+        $("#updateGoodsPrice").val(goodsPrice);
+        $("#updateGoodsNum").val(goodsNum);
+        $("#updateGoodsDescription").val(goodsDescription);
 
     }
+
 
     /**
      * 获取表格信息
@@ -132,16 +279,20 @@
                             let goodsName = x.goodsName;
                             let goodsPrice = x.goodsPrice;
                             let goodsNum = x.goodsNum;
+                            let goodsDescription = x.goodsDescription;
                             htmlContent += "<tr class=\"text-center\">" +
                                 "<td style=\"vertical-align: middle\">" + goodsId + "</td>" +
                                 "<td style=\"vertical-align: middle\">" + goodsName + "</td>" +
                                 "<td style=\"vertical-align: middle\">" + goodsPrice + "</td>" +
                                 "<td style=\"vertical-align: middle\" width='200px'>" + "<input  class='form-control' type='number' value='" + goodsNum + "'></input>" + "</td>" +
                                 "<td style=\"vertical-align: middle\">" +
-                                "<button id=\"choose\" data-toggle=\"modal\" data-target=\"#myModal\"" +
+                                "<button id=\"choose\" data-toggle=\"modal\" data-target=\"#myModalChoose\"" +
+                                "class=\"btn btn-warning\"" +
+                                "onclick=\"choose('" + goodsId + "','" + goodsName + "' ," +
+                                " '" + goodsPrice + "','" + goodsNum + "', '" + goodsDescription + "')\" > 修改 </button> " +
+                                "<button id=\"deleteGoods\"" +
                                 "class=\"btn btn-danger\"" +
-                                "onclick=\"choose('" + goodsId + "','" + goodsName + "' , '" + goodsPrice + "')\" > 选择 </button> " +
-                                "</td>" +
+                                "onclick=\"deleteGoods('" + goodsId + "')\" > 删除 </button> " +
                                 "</tr>";
                         }
                         $("#goods-table").html(tableHeader + htmlContent);
