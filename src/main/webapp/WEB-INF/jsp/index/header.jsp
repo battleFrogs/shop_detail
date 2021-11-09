@@ -80,6 +80,13 @@
             "hideMethod": "fadeOut" //消失时的动画方式
         };
     });
+
+    function checkReLogin(data) {
+        if (data.code === 401) {
+            window.location.href = "${pageContext.request.contextPath}/page/index/login";
+        }
+    }
+
 </script>
 </body>
 </html>

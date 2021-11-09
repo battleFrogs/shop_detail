@@ -5,10 +5,12 @@ import com.example.shop_detail.common.ResultData;
 import com.example.shop_detail.common.ResultEnum;
 import com.example.shop_detail.model.Goods;
 import com.example.shop_detail.param.GoodsSearchParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,7 +27,7 @@ public class GoodsController {
      * @return 前台商品列表页
      */
     @RequestMapping("/goodsSearch")
-    public ResultData goodsSearch(GoodsSearchParam param) {
+    public ResultData goodsSearch(@RequestBody @Valid GoodsSearchParam param) {
         ResultData resultData = new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
         List<Goods> goodsList = goodsApplication.goodsSearch(param);
         resultData.addData("goodsList", goodsList);

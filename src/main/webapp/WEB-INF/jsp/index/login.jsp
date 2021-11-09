@@ -48,7 +48,6 @@
 
 <script>
     $(function () {
-
         // 登录请求
         $("#loginIn").click(function () {
             const account = $("#account").val();
@@ -70,7 +69,8 @@
                 });
         });
 
-    });
+    })
+    ;
 
 
 </script>

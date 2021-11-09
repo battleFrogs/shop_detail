@@ -52,6 +52,7 @@
     // 订单发货
     function tradeSend(tradeNo) {
         $.get("${pageContext.request.contextPath}/trade/tradeSend", {tradeNo: tradeNo}, function (data) {
+            checkReLogin(data);
             getTradeStatus();
         });
 
@@ -60,6 +61,7 @@
     // 订单收货
     function tradeReceive(tradeNo) {
         $.get("${pageContext.request.contextPath}/trade/tradeReceive", {tradeNo: tradeNo}, function (data) {
+            checkReLogin(data);
             getTradeStatus();
         });
     }
@@ -67,6 +69,7 @@
     // 订单付款
     function tradePay(tradeNo) {
         $.get("${pageContext.request.contextPath}/trade/tradePay", {tradeNo: tradeNo}, function (data) {
+            checkReLogin(data);
             getTradeStatus();
         });
     }
@@ -104,7 +107,7 @@
             data: JSON.stringify(param),
             contentType: 'application/json;charset=utf-8',
             success: function (data) {
-                if (data) {
+                    checkReLogin(data);
                     if (data.code === 0) {
                         let tradeList = data.data.tradeList;
                         let htmlContent = "";
@@ -153,8 +156,7 @@
                         $("#tradeTbale").html(htmlHead + htmlContent);
                     }
                 }
-            }
-        })
+            })
     };
 
 

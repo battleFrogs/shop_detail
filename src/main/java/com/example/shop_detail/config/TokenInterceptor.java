@@ -21,7 +21,8 @@ public class TokenInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
         String token = (String) session.getAttribute("token");
         if (token == null) {
-            response.sendRedirect("http://localhost:8080/shop_detail_war_exploded/index/login");
+            ResultData resultData = new ResultData(ResultEnum.RELOGIN.getCode(), "重新登录");
+            ResponseWriterUtils.writeToJSON(resultData, response);
             return false;
         }
         return true;

@@ -111,6 +111,7 @@
         $.get("${pageContext.request.contextPath}/trade/createTradePay",
             {goodsId: goodsId, num: buyNum}, function (data) {
                 if (data) {
+                    checkReLogin(data);
                     if (data.code === 0) {
                         toastr.success("购买成功");
                         return;
@@ -130,6 +131,7 @@
         $.get("${pageContext.request.contextPath}/trade/createTradeNoPay",
             {goodsId: goodsId, num: buyNum}, function (data) {
                 if (data) {
+                    checkReLogin(data);
                     if (data.code === 0) {
                         toastr.success("购买成功");
                         return;
@@ -163,11 +165,15 @@
             "<th class=\"text-center\">商品价格</th>" +
             "<th class=\"text-center\">操作</th>" +
             +"</tr>";
-        $.get(
-            "${pageContext.request.contextPath}/goods/goodsSearch",
-            {goodsName: goodsName},
-            function (data) {
-                if (data) {
+        param = {goodsName: goodsName}
+        $.ajax({
+            url: "${pageContext.request.contextPath}/goods/goodsSearch",
+            type: 'post',
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify(param),
+            success: function (data) {
+                if (data){
+                    checkReLogin(data);
                     if (data.code === 0) {
                         let goodsList = data.data.goodsList;
                         let htmlContent = "";
@@ -191,7 +197,7 @@
                     }
                 }
             }
-        );
+        });
     }
 
 </script>

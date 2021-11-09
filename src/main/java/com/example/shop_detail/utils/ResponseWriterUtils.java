@@ -13,9 +13,17 @@ public class ResponseWriterUtils {
 
 
     public static void write(ResultData resultData, HttpServletResponse response) throws IOException {
-        response.setCharacterEncoding("utf-8");
+        response.setHeader("Content-Type","text/ plain;charset=utf-8");
         response.getWriter().write(JSON.toJSONString(resultData));
 
     }
+
+    public static void writeToJSON(ResultData resultData, HttpServletResponse response) throws IOException {
+        response.setHeader("Content-Type","application/json;charset=utf-8");
+        response.getWriter().write(JSON.toJSONString(resultData));
+
+    }
+
+
 
 }
