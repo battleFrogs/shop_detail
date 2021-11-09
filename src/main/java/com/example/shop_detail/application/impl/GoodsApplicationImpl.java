@@ -5,6 +5,7 @@ import com.example.shop_detail.exception.CustomizeException;
 import com.example.shop_detail.model.Goods;
 import com.example.shop_detail.param.AddGoodsParam;
 import com.example.shop_detail.param.GoodsSearchParam;
+import com.example.shop_detail.param.UpdateGoodsNumParam;
 import com.example.shop_detail.param.UpdateGoodsParam;
 import com.example.shop_detail.service.GoodsService;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,16 @@ public class GoodsApplicationImpl implements GoodsApplication {
         goods.setGoodsPrice(param.getGoodsPrice());
         goods.setGoodsDescription(param.getGoodsDescription());
         goods.setGoodsName(param.getGoodsName());
+        goodsService.saveOrUpdate(goods);
+    }
+
+    @Override
+    public void updateGoodsNum(UpdateGoodsNumParam param) {
+        Goods goods = goodsService.findByGoodsId(param.getGoodsId());
+        if (goods == null) {
+            throw new CustomizeException("商品为空");
+        }
+        goods.setGoodsNum(param.getGoodsNum());
         goodsService.saveOrUpdate(goods);
     }
 }

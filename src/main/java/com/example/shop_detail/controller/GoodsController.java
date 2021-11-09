@@ -6,6 +6,7 @@ import com.example.shop_detail.common.ResultEnum;
 import com.example.shop_detail.model.Goods;
 import com.example.shop_detail.param.AddGoodsParam;
 import com.example.shop_detail.param.GoodsSearchParam;
+import com.example.shop_detail.param.UpdateGoodsNumParam;
 import com.example.shop_detail.param.UpdateGoodsParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,8 +67,15 @@ public class GoodsController {
     }
 
 
-
-
+    /**
+     * 后台修改商品数目
+     */
+    @RequestMapping("/updateGoodsNum")
+    public ResultData updateGoodsNum(@RequestBody @Valid UpdateGoodsNumParam param) {
+        ResultData resultData = new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
+        goodsApplication.updateGoodsNum(param);
+        return resultData;
+    }
 
 
 }

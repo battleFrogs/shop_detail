@@ -114,6 +114,7 @@
 
         $("#clear").on("click", function () {
             $("#goodsName").val('');
+            getInfo();
         });
         $("#search").click(function () {
             getInfo();
@@ -201,7 +202,7 @@
 
 
             let param = {
-                'goodsId':parseInt(updateGoodsId),
+                'goodsId': parseInt(updateGoodsId),
                 'goodsNum': parseInt(updateGoodsNum),
                 'goodsDescription': updateGoodsDescription,
                 'goodsPrice': parseInt(updateGoodsPrice), "goodsName": updateGoodsName
@@ -224,7 +225,27 @@
 
         });
 
+
     });
+
+    function changeGoodsNum(goodsId) {
+        let goodsNum = $("#updateGoodsNum").val();
+        $.ajax(
+            {
+                url: "${pageContext.request.contextPath}/goods/updateGoodsNum",
+                data: JSON.stringify({goodsId, goodsNum}),
+                type: 'post',
+                contentType: 'application/json;charset=utf-8',
+                success: function (data) {
+                    if (data) {
+                        checkReLogin(data)
+                        if (data.code === 0) {
+                            getInfo();
+                        }
+                    }
+                }
+            });
+    }
 
     // 删除商品
     function deleteGoods(goodsId) {
@@ -284,7 +305,7 @@
                                 "<td style=\"vertical-align: middle\">" + goodsId + "</td>" +
                                 "<td style=\"vertical-align: middle\">" + goodsName + "</td>" +
                                 "<td style=\"vertical-align: middle\">" + goodsPrice + "</td>" +
-                                "<td style=\"vertical-align: middle\" width='200px'>" + "<input  class='form-control' type='number' value='" + goodsNum + "'></input>" + "</td>" +
+                                "<td style=\"vertical-align: middle\" width='200px'>" + "<input onfocusout='changeGoodsNum(" + goodsId + ")'  id='updateGoodsNum' class='form-control' type='number' value='" + goodsNum + "'></input>" + "</td>" +
                                 "<td style=\"vertical-align: middle\">" +
                                 "<button id=\"choose\" data-toggle=\"modal\" data-target=\"#myModalChoose\"" +
                                 "class=\"btn btn-warning\"" +
@@ -292,7 +313,7 @@
                                 " '" + goodsPrice + "','" + goodsNum + "', '" + goodsDescription + "')\" > 修改 </button> " +
                                 "<button id=\"deleteGoods\"" +
                                 "class=\"btn btn-danger\"" +
-                                "onclick=\"deleteGoods('" + goodsId + "')\" > 删除 </button> " +
+                                "onclick=\"deleteGoods('" + goodsId + "')\"> 删除 </button> " +
                                 "</tr>";
                         }
                         $("#goods-table").html(tableHeader + htmlContent);
