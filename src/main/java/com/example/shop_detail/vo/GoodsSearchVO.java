@@ -9,6 +9,29 @@ import java.util.List;
 public class GoodsSearchVO {
 
     private Long total;
-    private List<Goods> goodsList;
+    private List<GoodsBean> goodsList;
+
+    @Data
+    public static class GoodsBean {
+
+        private Long goodsId;
+        /**
+         * 商品名称
+         */
+        private String goodsName;
+        /**
+         * 商品数目
+         */
+        private Long goodsNum;
+        /**
+         * 商品描述
+         */
+        private String goodsDescription;
+        /**
+         * 商品价格
+         */
+        private Long goodsPrice;
+
+    }
 
 }

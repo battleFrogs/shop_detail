@@ -3,6 +3,7 @@ package com.example.shop_detail.application.impl;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.shop_detail.application.TradeApplication;
+import com.example.shop_detail.convert.TradeInfoByStatusConvert;
 import com.example.shop_detail.domain.TradeDomain;
 import com.example.shop_detail.model.Goods;
 import com.example.shop_detail.model.Trade;
@@ -30,9 +31,7 @@ public class TradeApplicationImpl implements TradeApplication {
         TradeInfoByStatusVO result = new TradeInfoByStatusVO();
         IPage<Trade> tradeIPageResult = tradeService.tradeInfo(param.getTradeStatus(), param.getBeginTime(),
                 param.getEndTime(), tradeIPage);
-        result.setTotal(tradeIPageResult.getTotal());
-        result.setTradeList(tradeIPageResult.getRecords());
-        return result;
+        return TradeInfoByStatusConvert.doToVo(tradeIPageResult);
     }
 
     @Override

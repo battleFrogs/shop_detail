@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.shop_detail.application.TradeApplication;
 import com.example.shop_detail.common.ResultData;
 import com.example.shop_detail.common.ResultEnum;
+import com.example.shop_detail.convert.TradeInfoByStatusConvert;
 import com.example.shop_detail.model.Trade;
 import com.example.shop_detail.param.TradeInfoByStatusParam;
 import com.example.shop_detail.vo.TradeInfoByStatusVO;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/trade")

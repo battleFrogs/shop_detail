@@ -2,6 +2,7 @@ package com.example.shop_detail.application.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.shop_detail.application.GoodsApplication;
+import com.example.shop_detail.convert.GoodsSearchConvert;
 import com.example.shop_detail.exception.CustomizeException;
 import com.example.shop_detail.model.Goods;
 import com.example.shop_detail.param.AddGoodsParam;
@@ -28,11 +29,8 @@ public class GoodsApplicationImpl implements GoodsApplication {
 
     @Override
     public GoodsSearchVO goodsSearch(GoodsSearchParam param, IPage<Goods> goodsIPage) {
-        GoodsSearchVO result = new GoodsSearchVO();
-        IPage<Goods> goods = goodsService.goodsSearch(param.getGoodsName(), goodsIPage);
-        result.setTotal(goods.getTotal());
-        result.setGoodsList(goods.getRecords());
-        return result;
+        IPage<Goods> goodsResult = goodsService.goodsSearch(param.getGoodsName(), goodsIPage);
+        return GoodsSearchConvert.doToVo(goodsResult);
     }
 
     @Override
