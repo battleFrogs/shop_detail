@@ -109,6 +109,46 @@
 
 </div>
 
+
+<script type="text/html" id="templateResult">
+    <thead>
+    <tr>
+        <th class="text-center">商品Id</th>
+        <th class="text-center">商品名称</th>
+        <th class="text-center">商品价格</th>
+        <th class="text-center">商品数目</th>
+        <th class="text-center">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{each list as value i}}
+    <tr class="text-center">
+        <td style="vertical-align: middle">{{value.goodsId}}</td>
+        <td style="vertical-align: middle">{{value.goodsName}}</td>
+        <td style="vertical-align: middle">{{value.goodsPrice}}</td>
+        <td style="vertical-align: middle ; width:200px">
+            <input onfocusout="changeGoodsNum('{{value.goodsId}}')"
+                   id='updateGoodsNum_{{value.goodsId}}'
+                   class='form-control' type='number' value='{{value.goodsNum}}'/>
+        </td>
+        <td style="vertical-align: middle">
+            <button id="choose" data-toggle="modal" data-target="#myModalChoose"
+                    class="btn btn-warning"
+                    onclick="choose('{{value.goodsId}}','{{value.goodsName}} ' ,
+             '{{value.goodsPrice}}','{{value.goodsNum}}', '{{value.goodsDescription}}')"> 修改
+            </button>
+            <button id="deleteGoods"
+                    class="btn btn-danger"
+                    onclick="deleteGoods('{{value.goodsId}}')"> 删除
+            </button>
+        </td>
+    </tr>
+    {{/each}}
+    </tbody>
+
+</script>
+
+
 <script type="text/javascript">
 
     let currentPage = 1;
@@ -281,13 +321,6 @@
      */
     var getInfo = function () {
         let goodsName = $("#goodsName").val();
-        $("#goods-table").empty();
-        let tableHeader = "<tr><th class=\"text-center\">商品Id</th> " +
-            "<th class=\"text-center\">商品名称</th>" +
-            "<th class=\"text-center\">商品价格</th>" +
-            "<th class=\"text-center\">商品数目</th>" +
-            "<th class=\"text-center\">操作</th>" +
-            +"</tr>";
         param = {goodsName: goodsName, page: currentPage, pageSize};
         $.ajax({
             url: "${pageContext.request.contextPath}/goods/goodsSearch",
@@ -300,32 +333,8 @@
                     if (data.code === 0) {
                         let goodsList = data.data.goodsList;
                         let total = data.data.total;
-                        let htmlContent = "";
-                        for (let i = 0; i < goodsList.length; i++) {
-                            let x = goodsList[i];
-                            let goodsId = x.goodsId;
-                            let goodsName = x.goodsName;
-                            let goodsPrice = x.goodsPrice;
-                            let goodsNum = x.goodsNum;
-                            let goodsDescription = x.goodsDescription;
-                            htmlContent += "<tr class=\"text-center\">" +
-                                "<td style=\"vertical-align: middle\">" + goodsId + "</td>" +
-                                "<td style=\"vertical-align: middle\">" + goodsName + "</td>" +
-                                "<td style=\"vertical-align: middle\">" + goodsPrice + "</td>" +
-                                "<td style=\"vertical-align: middle\" width='200px'>" + "<input onfocusout='changeGoodsNum(" + goodsId + ")' id='updateGoodsNum_" + goodsId + "' class='form-control' type='number' value='" + goodsNum + "'></input>" + "</td>" +
-                                "<td style=\"vertical-align: middle\">" +
-                                "<button id=\"choose\" data-toggle=\"modal\" data-target=\"#myModalChoose\"" +
-                                "class=\"btn btn-warning\"" +
-                                "onclick=\"choose('" + goodsId + "','" + goodsName + "' ," +
-                                " '" + goodsPrice + "','" + goodsNum + "', '" + goodsDescription + "')\" > 修改 </button> " +
-                                "<button id=\"deleteGoods\"" +
-                                "class=\"btn btn-danger\"" +
-                                "onclick=\"deleteGoods('" + goodsId + "')\"> 删除 </button> " +
-                                "</tr>";
-                        }
-                        $("#goods-table").html(tableHeader + htmlContent);
                         setPage(currentPage, Math.ceil(total / pageSize), getInfo);
-
+                        $("#goods-table").html(template("templateResult", {list: goodsList}));
                     }
                 }
             }

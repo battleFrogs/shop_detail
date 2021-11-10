@@ -47,6 +47,47 @@
 </div>
 
 
+<script type="text/html" id="templateResult">
+    <thead>
+    <tr>
+        <th class="text-center">订单编号</th>
+        <th class="text-center">订单商品名称</th>
+        <th class="text-center">订单价钱</th>
+        <th class="text-center">付款时间</th>
+        <th class="text-center">订单状态</th>
+        <th class="text-center">订单操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{each list as value i}}
+    <tr class="text-center">
+        <td style="vertical-align: middle">{{value.tradeNo}}</td>
+        <td style="vertical-align: middle">{{value.goodsName}}</td>
+        <td style="vertical-align: middle">{{value.total}}</td>
+        <td style="vertical-align: middle">{{value.payTime}}</td>
+        <td style="vertical-align: middle">
+            {{if value.tradeStatus === 'WAIT_PAY'}}
+            待付款
+            {{else if value.tradeStatus === 'WAIT_SEND'}}
+            待发货
+            {{else if value.tradeStatus === 'WAIT_RECEIVE'}}
+            待确认收货
+            {{else if value.tradeStatus === 'FINISH'}}
+            已完成
+            {{/if}}
+        </td>
+        <td style="vertical-align: middle">
+            {{if value.tradeStatus === 'WAIT_SEND'}}
+            <button id="send" class="btn btn-danger"
+                    onclick="tradeSend('{{value.tradeNo}}')">发货
+            </button>
+            {{/if}}
+        </td>
+    </tr>
+    {{/each}}
+    </tbody>
+</script>
+
 <script>
 
     let currentPage = 1;
@@ -70,15 +111,6 @@
         let beginTime = $("#begin").val();
         let endTime = $("#end").val();
         let param = {};
-        $("#tradeTbale").empty();
-
-        let htmlHead = "<tr><th class=\"text-center\">订单编号</th> " +
-            "<th class=\"text-center\">订单商品名称</th>" +
-            "<th class=\"text-center\">订单价钱</th>" +
-            "<th class=\"text-center\">付款时间</th>" +
-            "<th class=\"text-center\">订单状态</th>" +
-            "<th class=\"text-center\">订单操作</th>"
-            + "</tr>";
         if (tradeStatus !== "ALL") {
             param["tradeStatus"] = tradeStatus;
         }
@@ -100,50 +132,7 @@
                 if (data.code === 0) {
                     let tradeList = data.data.tradeList;
                     let total = data.data.total;
-                    let htmlContent = "";
-                    for (let i = 0; i < tradeList.length; i++) {
-                        let x = tradeList[i];
-                        let tradeNo = x.tradeNo;
-                        let goodsName = x.goodsName;
-                        let tradeStatus = x.tradeStatus;
-                        let payTime = x.payTime;
-                        let total = x.total;
-
-                        let operateTrade = ""
-                        let tradeStatusCn = ""
-                        if (tradeStatus === "WAIT_PAY") {
-                            tradeStatusCn = '待付款'
-                            operateTrade = "";
-                        }
-                        if (tradeStatus === "WAIT_SEND") {
-                            tradeStatusCn = '待发货'
-                            operateTrade = "<button id=\"send\" class=\"btn btn-default\" " +
-                                "onclick=\"tradeSend('" + tradeNo + "')\">发货" +
-                                "</button>";
-                        }
-                        if (tradeStatus === "WAIT_RECEIVE") {
-                            tradeStatusCn = '待确认收货'
-                            operateTrade = "";
-                        }
-                        if (tradeStatus === "FINISH") {
-                            tradeStatusCn = '已完成'
-                            operateTrade = "";
-                        }
-
-                        htmlContent += "<tr class=\"text-center\">" +
-                            "<td style=\"vertical-align: middle\">" + tradeNo + "</td>" +
-                            "<td style=\"vertical-align: middle\">" + goodsName + "</td>" +
-                            "<td style=\"vertical-align: middle\">" + total + "</td>" +
-                            "<td style=\"vertical-align: middle\">" + payTime + "</td>" +
-                            "<td style=\"vertical-align: middle\">" + tradeStatusCn + "</td>" +
-                            "<td style=\"vertical-align: middle\">" +
-                            operateTrade +
-                            "</td>" +
-                            "</tr>";
-
-
-                    }
-                    $("#tradeTbale").html(htmlHead + htmlContent);
+                    $("#tradeTbale").html(template("templateResult", {list: tradeList}));
                     setPage(currentPage, Math.ceil(total / pageSize), getTradeStatus);
                 }
             }
@@ -157,8 +146,6 @@
      * @param callback 调用ajax
      */
     function setPage(pageCurrent, pageSum, callback) {
-
-
         $('#pageLimit').bootstrapPaginator({
             currentPage: pageCurrent,//当前的请求页面。
             totalPages: pageSum,//一共多少页。

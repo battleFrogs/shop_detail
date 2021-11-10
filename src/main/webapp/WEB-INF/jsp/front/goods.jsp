@@ -78,6 +78,33 @@
 
 </div>
 
+<script type="text/html" id="templateResult">
+    <thead>
+    <tr>
+        <th class="text-center">商品Id</th>
+        <th class="text-center">商品名称</th>
+        <th class="text-center">商品价格</th>
+        <th class="text-center">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{each list as value i}}
+    <tr class="text-center">
+        <td style="vertical-align: middle">{{value.goodsId}}</td>
+        <td style="vertical-align: middle">{{value.goodsName}}</td>
+        <td style="vertical-align: middle">{{value.goodsPrice}}</td>
+        <td style="vertical-align: middle">
+            <button id="choose" data-toggle="modal" data-target="#myModal"
+                    class="btn btn-danger"
+                    onclick="choose('{{value.goodsId}}','{{value.goodsName}}','{{value.goodsPrice}}')"> 选择
+            </button>
+        </td>
+    </tr>
+    {{/each}}
+    </tbody>
+
+</script>
+
 <script>
 
     let currentPage = 1;
@@ -164,13 +191,7 @@
      */
     var getinfo = function () {
         let goodsName = $("#goodsName").val();
-        $("#goods-table").empty();
-        let tableHeader = "<tr><th class=\"text-center\">商品Id</th> " +
-            "<th class=\"text-center\">商品名称</th>" +
-            "<th class=\"text-center\">商品价格</th>" +
-            "<th class=\"text-center\">操作</th>" +
-            +"</tr>";
-        param = {goodsName: goodsName , page:currentPage , pageSize}
+        param = {goodsName: goodsName, page: currentPage, pageSize}
         $.ajax({
             url: "${pageContext.request.contextPath}/goods/goodsSearch",
             type: 'post',
@@ -180,28 +201,8 @@
                 if (data) {
                     checkReLogin(data);
                     if (data.code === 0) {
-                        let goodsList = data.data.goodsList;
-                        let total = data.data.total;
-                        let htmlContent = "";
-                        for (let i = 0; i < goodsList.length; i++) {
-                            let x = goodsList[i];
-                            let goodsId = x.goodsId;
-                            let goodsName = x.goodsName;
-                            let goodsPrice = x.goodsPrice;
-                            htmlContent += "<tr class=\"text-center\">" +
-                                "<td style=\"vertical-align: middle\">" + goodsId + "</td>" +
-                                "<td style=\"vertical-align: middle\">" + goodsName + "</td>" +
-                                "<td style=\"vertical-align: middle\">" + goodsPrice + "</td>" +
-                                "<td style=\"vertical-align: middle\">" +
-                                "<button id=\"choose\" data-toggle=\"modal\" data-target=\"#myModal\"" +
-                                "class=\"btn btn-danger\"" +
-                                "onclick=\"choose('" + goodsId + "','" + goodsName + "' , '" + goodsPrice + "')\" > 选择 </button> " +
-                                "</td>" +
-                                "</tr>";
-                        }
-                        $("#goods-table").html(tableHeader + htmlContent);
-
-                        setPage(currentPage, Math.ceil(total / pageSize), getinfo);
+                        setPage(currentPage, Math.ceil(data.data.total / pageSize), getinfo);
+                        $("#goods-table").html(template("templateResult", {list: data.data.goodsList}));
                     }
                 }
             }
