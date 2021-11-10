@@ -1,5 +1,6 @@
 package com.example.shop_detail.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.shop_detail.model.Trade;
 import com.example.shop_detail.mapper.TradeMapper;
@@ -21,12 +22,12 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, Trade>
         implements TradeService {
 
     @Override
-    public List<Trade> tradeInfo(String tradeStatus, Date beginTime, Date endTime) {
+    public IPage<Trade> tradeInfo(String tradeStatus, Date beginTime, Date endTime, IPage<Trade> tradeIPage) {
         return this.lambdaQuery()
                 .eq(StringUtils.isNotBlank(tradeStatus), Trade::getTradeStatus, tradeStatus)
                 .gt(beginTime != null, Trade::getPayTime, beginTime)
                 .lt(endTime != null, Trade::getPayTime, endTime)
-                .list();
+                .page(tradeIPage);
     }
 
     @Override

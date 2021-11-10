@@ -1,5 +1,7 @@
 package com.example.shop_detail.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.shop_detail.application.GoodsApplication;
 import com.example.shop_detail.common.ResultData;
 import com.example.shop_detail.common.ResultEnum;
@@ -8,6 +10,7 @@ import com.example.shop_detail.param.AddGoodsParam;
 import com.example.shop_detail.param.GoodsSearchParam;
 import com.example.shop_detail.param.UpdateGoodsNumParam;
 import com.example.shop_detail.param.UpdateGoodsParam;
+import com.example.shop_detail.vo.GoodsSearchVO;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,8 +33,10 @@ public class GoodsController {
     @RequestMapping("/goodsSearch")
     public ResultData goodsSearch(@RequestBody @Valid GoodsSearchParam param) {
         ResultData resultData = new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
-        List<Goods> goodsList = goodsApplication.goodsSearch(param);
-        resultData.addData("goodsList", goodsList);
+        IPage<Goods> goodsIPage = new Page<>(param.getPage(), param.getPageSize());
+        GoodsSearchVO result = goodsApplication.goodsSearch(param, goodsIPage);
+        resultData.addData("goodsList", result.getGoodsList());
+        resultData.addData("total", result.getTotal());
         return resultData;
     }
 

@@ -14,4 +14,7 @@ public class TradeInfoByStatusParam {
     private Date beginTime;
     private Date endTime;
 
+    private Long page;
+    private Long pageSize;
+
 }

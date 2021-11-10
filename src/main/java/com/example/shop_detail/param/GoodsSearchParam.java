@@ -6,5 +6,7 @@ import lombok.Data;
 public class GoodsSearchParam {
 
     private String goodsName;
+    private Long page;
+    private Long pageSize;
 
 }

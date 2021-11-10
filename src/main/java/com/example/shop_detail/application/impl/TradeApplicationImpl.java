@@ -1,6 +1,7 @@
 package com.example.shop_detail.application.impl;
 
 import cn.hutool.core.util.RandomUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.shop_detail.application.TradeApplication;
 import com.example.shop_detail.domain.TradeDomain;
 import com.example.shop_detail.model.Goods;
@@ -8,6 +9,7 @@ import com.example.shop_detail.model.Trade;
 import com.example.shop_detail.param.TradeInfoByStatusParam;
 import com.example.shop_detail.service.GoodsService;
 import com.example.shop_detail.service.TradeService;
+import com.example.shop_detail.vo.TradeInfoByStatusVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,9 +26,13 @@ public class TradeApplicationImpl implements TradeApplication {
     private GoodsService goodsService;
 
     @Override
-    public List<Trade> tradeInfo(TradeInfoByStatusParam param) {
-
-        return tradeService.tradeInfo(param.getTradeStatus(), param.getBeginTime(), param.getEndTime());
+    public TradeInfoByStatusVO tradeInfo(TradeInfoByStatusParam param, IPage<Trade> tradeIPage) {
+        TradeInfoByStatusVO result = new TradeInfoByStatusVO();
+        IPage<Trade> tradeIPageResult = tradeService.tradeInfo(param.getTradeStatus(), param.getBeginTime(),
+                param.getEndTime(), tradeIPage);
+        result.setTotal(tradeIPageResult.getTotal());
+        result.setTradeList(tradeIPageResult.getRecords());
+        return result;
     }
 
     @Override

@@ -1,9 +1,10 @@
 package com.example.shop_detail.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.shop_detail.application.TradeApplication;
 import com.example.shop_detail.common.ResultData;
 import com.example.shop_detail.common.ResultEnum;
-import com.example.shop_detail.convert.TradeInfoByStatusConvert;
 import com.example.shop_detail.model.Trade;
 import com.example.shop_detail.param.TradeInfoByStatusParam;
 import com.example.shop_detail.vo.TradeInfoByStatusVO;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/trade")
@@ -31,9 +31,10 @@ public class TradeController {
     @RequestMapping("/tradeInfoByStatus")
     public ResultData tradeInfoByStatus(@RequestBody @Valid TradeInfoByStatusParam tradeInfoByStatusParam) {
         ResultData resultData = new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
-        List<Trade> tradeList = tradeApplication.tradeInfo(tradeInfoByStatusParam);
-        List<TradeInfoByStatusVO> tradeInfoByStatusVOList = TradeInfoByStatusConvert.doToVo(tradeList);
-        resultData.addData("tradeList", tradeInfoByStatusVOList);
+        IPage<Trade> tradeIPage = new Page<>(tradeInfoByStatusParam.getPage(), tradeInfoByStatusParam.getPageSize());
+        TradeInfoByStatusVO result = tradeApplication.tradeInfo(tradeInfoByStatusParam, tradeIPage);
+        resultData.addData("tradeList", result.getTradeList());
+        resultData.addData("total", result.getTotal());
         return resultData;
     }
 

@@ -1,5 +1,6 @@
 package com.example.shop_detail.application.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.shop_detail.application.GoodsApplication;
 import com.example.shop_detail.exception.CustomizeException;
 import com.example.shop_detail.model.Goods;
@@ -8,6 +9,7 @@ import com.example.shop_detail.param.GoodsSearchParam;
 import com.example.shop_detail.param.UpdateGoodsNumParam;
 import com.example.shop_detail.param.UpdateGoodsParam;
 import com.example.shop_detail.service.GoodsService;
+import com.example.shop_detail.vo.GoodsSearchVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,8 +27,12 @@ public class GoodsApplicationImpl implements GoodsApplication {
     }
 
     @Override
-    public List<Goods> goodsSearch(GoodsSearchParam param) {
-        return goodsService.goodsSearch(param.getGoodsName());
+    public GoodsSearchVO goodsSearch(GoodsSearchParam param, IPage<Goods> goodsIPage) {
+        GoodsSearchVO result = new GoodsSearchVO();
+        IPage<Goods> goods = goodsService.goodsSearch(param.getGoodsName(), goodsIPage);
+        result.setTotal(goods.getTotal());
+        result.setGoodsList(goods.getRecords());
+        return result;
     }
 
     @Override

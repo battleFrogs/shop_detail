@@ -35,6 +35,9 @@
     <table id="goods-table" class="table table-bordered table-hover">
     </table>
 
+    <div id="example" style="text-align: right">
+        <ul id="pageLimit"></ul>
+    </div>
 
     <div class="modal fade" id="myModalChoose" tabindex="-1" role="dialog" aria-labelledby="myModalChooseLabel"
          aria-hidden="true">
@@ -107,6 +110,9 @@
 </div>
 
 <script type="text/javascript">
+
+    let currentPage = 1;
+    let pageSize = 10;
 
     $(function () {
 
@@ -282,7 +288,7 @@
             "<th class=\"text-center\">商品数目</th>" +
             "<th class=\"text-center\">操作</th>" +
             +"</tr>";
-        param = {goodsName: goodsName}
+        param = {goodsName: goodsName, page: currentPage, pageSize};
         $.ajax({
             url: "${pageContext.request.contextPath}/goods/goodsSearch",
             type: 'post',
@@ -293,6 +299,7 @@
                     checkReLogin(data);
                     if (data.code === 0) {
                         let goodsList = data.data.goodsList;
+                        let total = data.data.total;
                         let htmlContent = "";
                         for (let i = 0; i < goodsList.length; i++) {
                             let x = goodsList[i];
@@ -317,11 +324,53 @@
                                 "</tr>";
                         }
                         $("#goods-table").html(tableHeader + htmlContent);
+                        setPage(currentPage, Math.ceil(total / pageSize), getInfo);
+
                     }
                 }
             }
         });
     }
+
+    /**
+     *
+     * @param pageCurrent 当前所在页
+     * @param pageSum 总页数
+     * @param callback 调用ajax
+     */
+    function setPage(pageCurrent, pageSum, callback) {
+
+
+        $('#pageLimit').bootstrapPaginator({
+            currentPage: pageCurrent,//当前的请求页面。
+            totalPages: pageSum,//一共多少页。
+            size: "normal",//应该是页眉的大小。
+            bootstrapMajorVersion: 3,//bootstrap的版本要求。
+            alignment: "right",
+            numberOfPages: 5,//一页列出多少数据。
+            itemTexts: function (type, page, current) {//如下的代码是将页眉显示的中文显示我们自定义的中文。
+                switch (type) {
+                    case "first":
+                        return "首页";
+                    case "prev":
+                        return "上一页";
+                    case "next":
+                        return "下一页";
+                    case "last":
+                        return "末页";
+                    case "page":
+                        return page;
+                }
+            },
+            onPageClicked: function (event, originalEvent, type, page) {
+                // 把当前点击的页码赋值给currentPage, 调用ajax,渲染页面
+                currentPage = page
+                callback && callback()
+            }
+        });
+
+    }
+
 
 </script>
 </body>

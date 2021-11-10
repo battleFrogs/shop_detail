@@ -1,5 +1,6 @@
 package com.example.shop_detail.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.shop_detail.model.Goods;
 
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public interface GoodsService extends IService<Goods> {
 
-    List<Goods> goodsSearch(String goodsName);
+    IPage<Goods> goodsSearch(String goodsName, IPage<Goods> goodsIPage);
 
     Goods findByGoodsId(Long goodsId);
 }

@@ -25,6 +25,7 @@
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/bootstrap-datetimepicker.min.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-paginator.js"></script>
 
 </head>
 
