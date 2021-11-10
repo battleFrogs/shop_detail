@@ -51,8 +51,8 @@
                 <div class="modal-body">
                     <div>商品Id: <input id="updateGoodsId" class="form-control" disabled/></div>
                     <div>商品名称: <input id="updateGoodsName" class="form-control"/></div>
-                    <div>商品价格: <input id="updateGoodsPrice" class="form-control"/></div>
-                    <div>商品数目: <input id="updateGoodsNum" class="form-control"/></div>
+                    <div>商品价格: <input type="number" id="updateGoodsPrice" class="form-control"/></div>
+                    <div>商品数目: <input type="number" id="updateGoodsNum" class="form-control"/></div>
                     <div>商品描述: <input id="updateGoodsDescription" class="form-control"/></div>
                 </div>
 
@@ -229,11 +229,11 @@
     });
 
     function changeGoodsNum(goodsId) {
-        let goodsNum = $("#updateGoodsNum").val();
+        let goodsNum = $("#updateGoodsNum_" + goodsId).val();
         $.ajax(
             {
                 url: "${pageContext.request.contextPath}/goods/updateGoodsNum",
-                data: JSON.stringify({goodsId, goodsNum}),
+                data: JSON.stringify({goodsId, goodsNum: parseInt(goodsNum)}),
                 type: 'post',
                 contentType: 'application/json;charset=utf-8',
                 success: function (data) {
@@ -305,7 +305,7 @@
                                 "<td style=\"vertical-align: middle\">" + goodsId + "</td>" +
                                 "<td style=\"vertical-align: middle\">" + goodsName + "</td>" +
                                 "<td style=\"vertical-align: middle\">" + goodsPrice + "</td>" +
-                                "<td style=\"vertical-align: middle\" width='200px'>" + "<input onfocusout='changeGoodsNum(" + goodsId + ")'  id='updateGoodsNum' class='form-control' type='number' value='" + goodsNum + "'></input>" + "</td>" +
+                                "<td style=\"vertical-align: middle\" width='200px'>" + "<input onfocusout='changeGoodsNum(" + goodsId + ")' id='updateGoodsNum_" + goodsId + "' class='form-control' type='number' value='" + goodsNum + "'></input>" + "</td>" +
                                 "<td style=\"vertical-align: middle\">" +
                                 "<button id=\"choose\" data-toggle=\"modal\" data-target=\"#myModalChoose\"" +
                                 "class=\"btn btn-warning\"" +
