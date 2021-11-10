@@ -28,7 +28,7 @@
         <select id="tradeStatus" class="form-control" style="width: 150px">
             <option value="ALL" selected>所有状态</option>
             <option value="WAIT_PAY">待付款</option>
-            <option value="WAIT_SEND">待发货</option>
+            <option value="FINISH">已完成</option>
             <option value="WAIT_RECEIVE">待收货</option>
         </select>
         <div id="pay-from" class="form-group">
@@ -49,14 +49,7 @@
 <script>
 
 
-    // 订单发货
-    function tradeSend(tradeNo) {
-        $.get("${pageContext.request.contextPath}/trade/tradeSend", {tradeNo: tradeNo}, function (data) {
-            checkReLogin(data);
-            getTradeStatus();
-        });
 
-    }
 
     // 订单收货
     function tradeReceive(tradeNo) {
@@ -129,15 +122,17 @@
                             }
                             if (tradeStatus === "WAIT_SEND") {
                                 tradeStatusCn = '待发货'
-                                operateTrade = "<button id=\"send\" class=\"btn btn-default\" " +
-                                    "onclick=\"tradeSend('" + tradeNo + "')\">发货" +
-                                    "</button>";
+                                operateTrade = "";
                             }
                             if (tradeStatus === "WAIT_RECEIVE") {
                                 tradeStatusCn = '待确认收货'
                                 operateTrade = "<button id=\"receive\" class=\"btn btn-success\" " +
                                     "onclick=\"tradeReceive('" + tradeNo + "')\">确认收货" +
                                     "</button>";
+                            }
+                            if (tradeStatus === "FINISH") {
+                                tradeStatusCn = '已完成'
+                                operateTrade = "";
                             }
 
                             htmlContent += "<tr class=\"text-center\">" +
