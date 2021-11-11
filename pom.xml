@@ -100,6 +100,7 @@
     </dependencies>
 
     <build>
+        <finalName>shop_detail</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
