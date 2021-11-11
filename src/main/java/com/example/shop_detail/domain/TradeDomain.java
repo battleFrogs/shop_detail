@@ -34,6 +34,16 @@ public class TradeDomain {
             this.value = value;
             this.code = code;
         }
+
+        public static String getName(String value) {
+            TradeStatus[] values = TradeStatus.values();
+            for (TradeStatus tradeStatus : values) {
+                if (tradeStatus.getValue().equals(value)) {
+                    return tradeStatus.getName();
+                }
+            }
+            return "";
+        }
     }
 
 

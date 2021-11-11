@@ -38,6 +38,8 @@
         </div>
         <button type="button" class="btn btn-primary" id="selectTrade">查询</button>
         <button type="button" class="btn btn-primary" id="clear">清空</button>
+        <button type="button" class="btn btn-primary" id="export" onclick="request()">导出</button>
+        <%--        <a href="${pageContext.request.contextPath}/tradeExport">导出</a>--%>
     </form>
 
 
@@ -194,6 +196,45 @@
 
     }
 
+    function request() {
+
+        let tradeStatus = $("#tradeStatus").val();
+        let beginTime = $("#begin").val();
+        let endTime = $("#end").val();
+        let param = {};
+        if (tradeStatus !== "ALL") {
+            param["tradeStatus"] = tradeStatus;
+        }
+        if (begin) {
+            param['beginTime'] = beginTime;
+        }
+        if (end) {
+            param['endTime'] = endTime;
+        }
+
+        fetch('${pageContext.request.contextPath}/tradeExport', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(param),
+        })
+            .then(res => res.blob())
+            .then(data => {
+                let blobUrl = window.URL.createObjectURL(data);
+                download(blobUrl);
+            });
+    }
+
+    function download(blobUrl) {
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.download = 'trade.xls';
+        a.href = blobUrl;
+        a.click();
+        document.body.removeChild(a);
+    }
+
 
     $(function () {
 
@@ -221,6 +262,8 @@
 
         // 订单状态查询
         $("#selectTrade").click(getTradeStatus);
+
+
     });
 
 

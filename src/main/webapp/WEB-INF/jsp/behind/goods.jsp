@@ -29,7 +29,13 @@
 
         <button id="search" type="button" class="btn btn-primary">搜索</button>
         <button id="addGoods" type="button" class="btn btn-success">添加</button>
+        <button id="upload" type="button" class="btn btn-danger">上传</button>
         <button id="clear" type="button" class="btn btn-default">清空</button>
+
+    </form>
+
+    <form class="form-inline" id="uploadForm" >
+        <input  id="File1" multiple="multiple" type="file" value=""/>
     </form>
 
     <table id="goods-table" class="table table-bordered table-hover">
@@ -160,10 +166,37 @@
 
         $("#clear").on("click", function () {
             $("#goodsName").val('');
+            $("#File1").val('');
             getInfo();
         });
         $("#search").click(function () {
             getInfo();
+        });
+
+        $("#upload").click(function () {
+            let file = $("#File1")[0].files[0];
+            var formData = new FormData();
+            if (!file) {
+                toastr.error("文件为空");
+            }
+            formData.append("file", file);
+            $.ajax({
+                type: "POST",
+                data: formData,
+                url: "${pageContext.request.contextPath}/upload",
+                contentType: false,
+                processData: false,
+            }).success(function (data) {
+                if (data.data && data.data.code === 0) {
+                    console.log(data.url);
+                } else {
+                    console.log(data.msg);
+                }
+
+            }).error(function (data) {
+                alert(data);
+                console.log(data);
+            });
         });
 
 

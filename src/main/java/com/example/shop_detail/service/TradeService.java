@@ -18,5 +18,7 @@ public interface TradeService extends IService<Trade> {
 
     IPage<Trade> tradeInfo(String tradeStatus, Date beginTime, Date endTime, IPage<Trade> tradeIPage);
 
+    List<Trade> tradeInfo(String tradeStatus, Date beginTime, Date endTime);
+
     Trade findByTradeNo(String tradeNo);
 }

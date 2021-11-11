@@ -31,6 +31,15 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, Trade>
     }
 
     @Override
+    public List<Trade> tradeInfo(String tradeStatus, Date beginTime, Date endTime) {
+        return this.lambdaQuery()
+                .eq(StringUtils.isNotBlank(tradeStatus), Trade::getTradeStatus, tradeStatus)
+                .gt(beginTime != null, Trade::getPayTime, beginTime)
+                .lt(endTime != null, Trade::getPayTime, endTime)
+                .list();
+    }
+
+    @Override
     public Trade findByTradeNo(String tradeNo) {
         return this.lambdaQuery()
                 .eq(Trade::getTradeNo, tradeNo)

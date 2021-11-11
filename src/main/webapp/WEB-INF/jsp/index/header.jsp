@@ -21,12 +21,15 @@
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/fileinput.min.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/toastr.min.js"></script>
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/bootstrap-datetimepicker.min.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-paginator.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/template-web.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/fileinput.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/fileinput_locale_zh.js"></script>
 
 </head>
 

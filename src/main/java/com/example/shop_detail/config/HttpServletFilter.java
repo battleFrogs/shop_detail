@@ -1,5 +1,6 @@
 package com.example.shop_detail.config;
 
+import org.apache.catalina.connector.RequestFacade;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,12 @@ public class HttpServletFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         ServletRequest requestWrapper = null;
         if(request instanceof HttpServletRequest) {
-            requestWrapper = new RequestWrapper((HttpServletRequest) request);
+            HttpServletRequest request1 = (HttpServletRequest) request;
+            if (request1.getRequestURI().contains("upload")) {
+                chain.doFilter(request, response);
+                return;
+            }
+            requestWrapper = new RequestWrapper(request1);
         }
         if(requestWrapper == null) {
             chain.doFilter(request, response);

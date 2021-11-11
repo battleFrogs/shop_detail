@@ -1,5 +1,9 @@
 package com.example.shop_detail.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.shop_detail.application.TradeApplication;
@@ -7,14 +11,19 @@ import com.example.shop_detail.common.ResultData;
 import com.example.shop_detail.common.ResultEnum;
 import com.example.shop_detail.convert.TradeInfoByStatusConvert;
 import com.example.shop_detail.model.Trade;
+import com.example.shop_detail.param.TradeExportParam;
 import com.example.shop_detail.param.TradeInfoByStatusParam;
+import com.example.shop_detail.utils.HttpUtils;
 import com.example.shop_detail.vo.TradeInfoByStatusVO;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -103,6 +112,5 @@ public class TradeController {
         tradeApplication.tradeReceive(tradeNo);
         return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
     }
-
 
 }
