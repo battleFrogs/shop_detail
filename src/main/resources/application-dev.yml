@@ -7,6 +7,19 @@ spring:
     password: root
 
 
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+    timeout: 0
+
   mvc:
     view:
       suffix: .jsp
@@ -16,8 +29,8 @@ spring:
       static-locations: classpath:/js/,classpath:/css/,classpath:/bootstrap-3.4.1-dist/
 
   jackson:
-#    serialization:
-#      write-dates-as-timestamps: true
+    #    serialization:
+    #      write-dates-as-timestamps: true
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
