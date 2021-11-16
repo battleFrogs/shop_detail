@@ -1,5 +1,7 @@
 package com.example.shop_detail.config;
 
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -20,6 +22,13 @@ public class WebCustomConfiguration implements WebMvcConfigurer {
                 .excludePathPatterns("/js/**")
                 .excludePathPatterns("/css/**")
                 .excludePathPatterns("/bootstrap-3.4.1-dist/**");
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<MyListener> initServletListenerRegistrationBean(){
+        ServletListenerRegistrationBean<MyListener> servletListenerRegistrationBean=new ServletListenerRegistrationBean<>();
+        servletListenerRegistrationBean.setListener(new MyListener());
+        return servletListenerRegistrationBean;
     }
 
 

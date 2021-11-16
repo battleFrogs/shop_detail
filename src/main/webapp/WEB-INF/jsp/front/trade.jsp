@@ -78,6 +78,8 @@
             待确认收货
             {{else if value.tradeStatus === 'FINISH'}}
             已完成
+            {{else if value.tradeStatus === 'CLOSE'}}
+            已关闭
             {{/if}}
         </td>
         <td style="vertical-align: middle">

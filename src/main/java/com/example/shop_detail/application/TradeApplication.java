@@ -12,9 +12,7 @@ public interface TradeApplication {
 
     TradeInfoByStatusVO tradeInfo(TradeInfoByStatusParam tradeInfoByStatusParam, IPage<Trade> tradeIPage);
 
-    void createTradeNoPay(Long goodsId, Integer num);
 
-    void createTradePay(Long goodsId, Integer num);
 
     void tradeSend(String tradeNo);
 

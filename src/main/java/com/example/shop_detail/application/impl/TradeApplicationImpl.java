@@ -28,40 +28,12 @@ public class TradeApplicationImpl implements TradeApplication {
 
     @Override
     public TradeInfoByStatusVO tradeInfo(TradeInfoByStatusParam param, IPage<Trade> tradeIPage) {
-        TradeInfoByStatusVO result = new TradeInfoByStatusVO();
         IPage<Trade> tradeIPageResult = tradeService.tradeInfo(param.getTradeStatus(), param.getBeginTime(),
                 param.getEndTime(), tradeIPage);
         return TradeInfoByStatusConvert.doToVo(tradeIPageResult);
     }
 
-    @Override
-    public void createTradeNoPay(Long goodsId, Integer num) {
 
-        Goods goods = goodsService.getById(goodsId);
-        Trade trade = new Trade();
-        trade.setTradeNo(RandomUtil.randomString(RandomUtil.BASE_CHAR, 10));
-        trade.setGoodsName(goods.getGoodsName());
-        Long total = Long.valueOf(BigDecimal.valueOf(num).multiply(BigDecimal.valueOf(goods.getGoodsPrice())).toString());
-        trade.setTotal(total);
-        trade.setUpdateTime(new Date());
-        trade.setTradeStatus(TradeDomain.TradeStatus.WAIT_PAY.getValue());
-        tradeService.save(trade);
-
-    }
-
-    @Override
-    public void createTradePay(Long goodsId, Integer num) {
-        Goods goods = goodsService.getById(goodsId);
-        Trade trade = new Trade();
-        trade.setTradeNo(RandomUtil.randomString(RandomUtil.BASE_CHAR, 10));
-        trade.setGoodsName(goods.getGoodsName());
-        Long total = Long.valueOf(BigDecimal.valueOf(num).multiply(BigDecimal.valueOf(goods.getGoodsPrice())).toString());
-        trade.setTotal(total);
-        trade.setPayTime(new Date());
-        trade.setUpdateTime(new Date());
-        trade.setTradeStatus(TradeDomain.TradeStatus.WAIT_SEND.getValue());
-        tradeService.save(trade);
-    }
 
     @Override
     public void tradeSend(String tradeNo) {

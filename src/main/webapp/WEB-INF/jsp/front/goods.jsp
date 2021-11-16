@@ -84,6 +84,7 @@
         <th class="text-center">商品Id</th>
         <th class="text-center">商品名称</th>
         <th class="text-center">商品价格</th>
+        <th class="text-center">商品数目</th>
         <th class="text-center">操作</th>
     </tr>
     </thead>
@@ -93,6 +94,7 @@
         <td style="vertical-align: middle">{{value.goodsId}}</td>
         <td style="vertical-align: middle">{{value.goodsName}}</td>
         <td style="vertical-align: middle">{{value.goodsPrice}}</td>
+        <td style="vertical-align: middle">{{value.goodsNum}}</td>
         <td style="vertical-align: middle">
             <button id="choose" data-toggle="modal" data-target="#myModal"
                     class="btn btn-danger"
@@ -140,7 +142,7 @@
     function buyAndPay() {
         let goodsId = $("#goodsIdResult").text();
         let buyNum = $("#buyNum").val();
-        $.get("${pageContext.request.contextPath}/trade/createTradePay",
+        $.get("${pageContext.request.contextPath}/buy/createTradePay",
             {goodsId: goodsId, num: buyNum}, function (data) {
                 if (data) {
                     checkReLogin(data);
@@ -160,7 +162,7 @@
     function buyAndNoPay() {
         let goodsId = $("#goodsIdResult").text();
         let buyNum = $("#buyNum").val();
-        $.get("${pageContext.request.contextPath}/trade/createTradeNoPay",
+        $.get("${pageContext.request.contextPath}/buy/createTradeNoPay",
             {goodsId: goodsId, num: buyNum}, function (data) {
                 if (data) {
                     checkReLogin(data);

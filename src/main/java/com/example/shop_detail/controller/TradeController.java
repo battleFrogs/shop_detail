@@ -50,33 +50,6 @@ public class TradeController {
     }
 
     /**
-     * 创建订单未支付
-     *
-     * @param goodsId 商品Id
-     * @param num     数目
-     * @return resultData
-     */
-    @RequestMapping("/createTradeNoPay")
-    public ResultData createTradeNoPay(Long goodsId, Integer num) {
-        tradeApplication.createTradeNoPay(goodsId, num);
-        return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
-    }
-
-    /**
-     * 创建订单支付
-     *
-     * @param goodsId 商品Id
-     * @param num     数目
-     * @return resultData
-     */
-    @RequestMapping("/createTradePay")
-    public ResultData createTradePay(Long goodsId, Integer num) {
-        tradeApplication.createTradePay(goodsId, num);
-        return new ResultData(ResultEnum.SUCCESS.getCode(), "成功");
-    }
-
-
-    /**
      * 订单发货
      *
      * @param tradeNo 订单号

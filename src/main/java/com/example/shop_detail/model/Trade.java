@@ -59,5 +59,9 @@ public class Trade implements Serializable {
      * 收货时间
      */
     private Date receiveTime;
+    /**
+     * 关闭时间
+     */
+    private Date closeTime;
 
 }
